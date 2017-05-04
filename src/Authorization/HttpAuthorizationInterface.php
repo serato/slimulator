@@ -1,5 +1,5 @@
 <?php
-namespace Serato\Slimulator;
+namespace Serato\Slimulator\Authorization;
 
 /**
  * Interface that all HTTP Authorization classes must implement

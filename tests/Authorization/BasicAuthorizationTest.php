@@ -1,20 +1,20 @@
 <?php
-namespace Serato\Slimulator\Test;
+namespace Serato\Slimulator\Test\Authorization;
 
 use PHPUnit\Framework\TestCase;
-use Serato\Slimulator\HttpBasicAuthorization;
+use Serato\Slimulator\Authorization\BasicAuthorization;
 
 /**
- * Unit tests for Serato\Slimulator\HttpBasicAuthorization
+ * Unit tests for Serato\Slimulator\Authorization\BasicAuthorization
  */
-class HttpBasicAuthorizationTest extends TestCase
+class BasicAuthorizationTest extends TestCase
 {
     public function testGetSet()
     {
         $user_name = 'myuser';
         $user_pass = 'mypass';
 
-        $auth = new HttpBasicAuthorization($user_name, $user_pass);
+        $auth = new BasicAuthorization($user_name, $user_pass);
 
         $this->assertEquals($auth->getName(), $user_name);
         $this->assertEquals($auth->getPassword(), $user_pass);
@@ -34,7 +34,7 @@ class HttpBasicAuthorizationTest extends TestCase
         $user_name = 'myuser';
         $user_pass = 'mypass';
 
-        $auth = new HttpBasicAuthorization($user_name, $user_pass);
+        $auth = new BasicAuthorization($user_name, $user_pass);
 
         $headerVal = $auth->getHeaderValue();
 
@@ -50,7 +50,7 @@ class HttpBasicAuthorizationTest extends TestCase
         $user_name = 'myuser';
         $user_pass = 'mypass';
 
-        $auth = new HttpBasicAuthorization($user_name, $user_pass);
+        $auth = new BasicAuthorization($user_name, $user_pass);
 
         $vars = $auth->getPhpEnvVars();
 

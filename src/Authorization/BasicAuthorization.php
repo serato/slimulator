@@ -1,12 +1,12 @@
 <?php
-namespace Serato\Slimulator;
+namespace Serato\Slimulator\Authorization;
 
-use Serato\Slimulator\HttpAuthorizationInterface;
+use Serato\Slimulator\Authorization\HttpAuthorizationInterface;
 
 /**
  * Creates environment variables for a request using HTTP `Basic` authorization.
  */
-class HttpBasicAuthorization implements HttpAuthorizationInterface
+class BasicAuthorization implements HttpAuthorizationInterface
 {
 
     /**

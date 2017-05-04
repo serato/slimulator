@@ -1,7 +1,7 @@
 <?php
 namespace Serato\Slimulator;
 
-use Serato\Slimulator\HttpAuthorizationInterface;
+use Serato\Slimulator\Authorization\HttpAuthorizationInterface;
 
 /**
  * Creates a PHP request environment

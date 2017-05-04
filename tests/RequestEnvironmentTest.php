@@ -3,7 +3,7 @@ namespace Serato\Slimulator\Test;
 
 use PHPUnit\Framework\TestCase;
 use Serato\Slimulator\RequestEnvironment;
-use Serato\Slimulator\HttpBasicAuthorization;
+use Serato\Slimulator\Authorization\BasicAuthorization;
 
 /**
  * Unit tests for Serato\Slimulator\RequestEnvironment
@@ -253,7 +253,7 @@ class RequestEnvironmentTest extends TestCase
         $user_name = 'myuser';
         $user_pass = 'mypass';
         
-        $auth = new HttpBasicAuthorization($user_name, $user_pass);
+        $auth = new BasicAuthorization($user_name, $user_pass);
         $requestEnvironment = new RequestEnvironment();
         $env = $requestEnvironment
                     ->setAuthorization($auth)
