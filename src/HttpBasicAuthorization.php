@@ -3,45 +3,97 @@ namespace Serato\Slimulator;
 
 use Serato\Slimulator\HttpAuthorizationInterface;
 
-class HttpBasicAuthorization implements HttpAuthorizationInterface {
+/**
+ * Creates environment variables for a request using HTTP `Basic` authorization.
+ */
+class HttpBasicAuthorization implements HttpAuthorizationInterface
+{
 
+    /**
+     * User name
+     *
+     * @var string
+     */
     private $name;
+
+    /**
+     * Password
+     *
+     * @var string
+     */
     private $password;
 
-    public function __construct(string $name, string $password){
+    /**
+     * Constructs the object
+     *
+     * @param string    $name       User name
+     * @param string    $Password   Password
+     *
+     * @return void
+     */
+    public function __construct(string $name, string $password)
+    {
         $this->setName($name);
         $this->setPassword($password);
     }
 
+    /**
+     * Sets the user name
+     *
+     * @param string    $name       User name
+     *
+     * @return self
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
         return $this;
     }
 
+    /**
+     * Sets the password
+     *
+     * @param string    $Password  Password
+     *
+     * @return self
+     */
     public function setPassword(string $password): self
     {
         $this->password = $password;
         return $this;
     }
 
+    /**
+     * Gets the user name
+     *
+     * @return string
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * Gets the password
+     *
+     * @return string
+     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    // Interface implementation
-
+    /**
+     * {@inheritdoc}
+     */
     public function getHeaderValue(): string
     {
         return base64_encode($this->getName() . ':' . $this->getPassword());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getPhpEnvVars(): array
     {
         return [

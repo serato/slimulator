@@ -63,11 +63,46 @@ class RequestEnvironmentTest extends TestCase
     public function setUriProvider()
     {
         return [
-            ['/plain/url', '/plain/url', '', RequestEnvironment::DEFAULT_HOST, RequestEnvironment::DEFAULT_PORT, 'off'],
-            ['http://mydomain/plain/url', '/plain/url', '', 'mydomain', RequestEnvironment::DEFAULT_PORT, 'off'],
-            ['https://mydomain/plain/url', '/plain/url', '', 'mydomain', RequestEnvironment::DEFAULT_PORT, 'on'],
-            ['http://mydomain:8080/plain/url', '/plain/url', '', 'mydomain', 8080, 'off'],
-            ['http://mydomain:8080/plain/url?var1=val1&var2=val2', '/plain/url?var1=val1&var2=val2', 'var1=val1&var2=val2', 'mydomain', 8080, 'off']
+            [
+                '/plain/url',
+                '/plain/url',
+                '',
+                RequestEnvironment::DEFAULT_HOST,
+                RequestEnvironment::DEFAULT_PORT,
+                'off'
+            ],
+            [
+                'http://mydomain/plain/url',
+                '/plain/url',
+                '',
+                'mydomain',
+                RequestEnvironment::DEFAULT_PORT,
+                'off'
+            ],
+            [
+                'https://mydomain/plain/url',
+                '/plain/url',
+                '',
+                'mydomain',
+                RequestEnvironment::DEFAULT_PORT,
+                'on'
+            ],
+            [
+                'http://mydomain:8080/plain/url',
+                '/plain/url',
+                '',
+                'mydomain',
+                8080,
+                'off'
+            ],
+            [
+                'http://mydomain:8080/plain/url?var1=val1&var2=val2',
+                '/plain/url?var1=val1&var2=val2',
+                'var1=val1&var2=val2',
+                'mydomain',
+                8080,
+                'off'
+            ]
         ];
     }
 
