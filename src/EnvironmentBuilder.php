@@ -6,7 +6,7 @@ use Serato\Slimulator\Authorization\HttpAuthorizationInterface;
 /**
  * Creates a PHP request environment
  */
-class RequestEnvironment
+class EnvironmentBuilder
 {
     const DEFAULT_USER_AGENT = 'Slimulator/1.0.0';
     const DEFAULT_IS_HTTPS = false;

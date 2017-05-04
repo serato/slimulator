@@ -2,45 +2,42 @@
 namespace Serato\Slimulator\Test;
 
 use PHPUnit\Framework\TestCase;
-use Serato\Slimulator\RequestEnvironment;
+use Serato\Slimulator\EnvironmentBuilder;
 use Serato\Slimulator\Authorization\BasicAuthorization;
 
 /**
- * Unit tests for Serato\Slimulator\RequestEnvironment
+ * Unit tests for Serato\Slimulator\EnvironmentBuilder
  */
-class RequestEnvironmentTest extends TestCase
+class EnvironmentBuilderTest extends TestCase
 {
     public function testDefaults()
     {
-        $requestEnvironment = new RequestEnvironment();
-        $env = $requestEnvironment->getEnv();
+        $builder = new EnvironmentBuilder();
+
+        $env = $builder->getEnv();
         $this->assertTrue(is_array($env));
         $this->assertEquals($env['REQUEST_METHOD'], 'GET');
     }
 
     public function testSetRequestMethod()
     {
-        $requestEnvironment = new RequestEnvironment();
-        $env = $requestEnvironment
-                    ->setRequestMethod('POST')
-                    ->getEnv();
+        $builder = new EnvironmentBuilder();
+        
+        $env = $builder->setRequestMethod('POST')->getEnv();
         $this->assertEquals($env['REQUEST_METHOD'], 'POST');
-        $env = $requestEnvironment
-                    ->setRequestMethod('PUT')
-                    ->getEnv();
+        
+        $env = $builder->setRequestMethod('PUT')->getEnv();
         $this->assertEquals($env['REQUEST_METHOD'], 'PUT');
     }
 
     public function testSetServerProtocol()
     {
-        $requestEnvironment = new RequestEnvironment();
-        $env = $requestEnvironment
-                    ->setServerProtocol('HTTP/1.2')
-                    ->getEnv();
+        $builder = new EnvironmentBuilder();
+
+        $env = $builder->setServerProtocol('HTTP/1.2')->getEnv();
         $this->assertEquals($env['SERVER_PROTOCOL'], 'HTTP/1.2');
-        $env = $requestEnvironment
-                    ->setServerProtocol('HTTP/1.1')
-                    ->getEnv();
+        
+        $env = $builder->setServerProtocol('HTTP/1.1')->getEnv();
         $this->assertEquals($env['SERVER_PROTOCOL'], 'HTTP/1.1');
     }
 
@@ -49,10 +46,10 @@ class RequestEnvironmentTest extends TestCase
      */
     public function testSetUri($requestUri, $uri, $queryString, $host, $port, $isHttps)
     {
-        $requestEnvironment = new RequestEnvironment();
-        $env = $requestEnvironment
-                    ->setUri($requestUri)
-                    ->getEnv();
+        $builder = new EnvironmentBuilder();
+        
+        $env = $builder->setUri($requestUri)->getEnv();
+
         $this->assertEquals($env['REQUEST_URI'], $uri);
         $this->assertEquals($env['QUERY_STRING'], $queryString);
         $this->assertEquals($env['HTTP_HOST'], $host);
@@ -67,8 +64,8 @@ class RequestEnvironmentTest extends TestCase
                 '/plain/url',
                 '/plain/url',
                 '',
-                RequestEnvironment::DEFAULT_HOST,
-                RequestEnvironment::DEFAULT_PORT,
+                EnvironmentBuilder::DEFAULT_HOST,
+                EnvironmentBuilder::DEFAULT_PORT,
                 'off'
             ],
             [
@@ -76,7 +73,7 @@ class RequestEnvironmentTest extends TestCase
                 '/plain/url',
                 '',
                 'mydomain',
-                RequestEnvironment::DEFAULT_PORT,
+                EnvironmentBuilder::DEFAULT_PORT,
                 'off'
             ],
             [
@@ -84,7 +81,7 @@ class RequestEnvironmentTest extends TestCase
                 '/plain/url',
                 '',
                 'mydomain',
-                RequestEnvironment::DEFAULT_PORT,
+                EnvironmentBuilder::DEFAULT_PORT,
                 'on'
             ],
             [
@@ -108,97 +105,72 @@ class RequestEnvironmentTest extends TestCase
 
     public function testSetRemoveGetParams()
     {
-        $requestEnvironment = new RequestEnvironment();
-        $env = $requestEnvironment
-                    ->setUri('/plain/url?var1=val1&var2=val2')
-                    ->getEnv();
+        $builder = new EnvironmentBuilder();
+
+        $env = $builder->setUri('/plain/url?var1=val1&var2=val2')->getEnv();
         $this->assertEquals($env['QUERY_STRING'], 'var1=val1&var2=val2');
 
-        $env = $requestEnvironment
-                    ->setGetParam('var3', 'val3')
-                    ->getEnv();
+        $env = $builder->setGetParam('var3', 'val3')->getEnv();
         $this->assertEquals($env['QUERY_STRING'], 'var1=val1&var2=val2&var3=val3');
 
-        $env = $requestEnvironment
-                    ->removeGetParam('var2')
-                    ->getEnv();
+        $env = $builder->removeGetParam('var2')->getEnv();
         $this->assertEquals($env['QUERY_STRING'], 'var1=val1&var3=val3');
 
-        $env = $requestEnvironment
-                    ->setGetParams(['var4' =>'val4', 'var5' =>'val5'])
-                    ->getEnv();
+        $env = $builder->setGetParams(['var4' =>'val4', 'var5' =>'val5'])->getEnv();
         $this->assertEquals($env['QUERY_STRING'], 'var1=val1&var3=val3&var4=val4&var5=val5');
     }
 
     public function testSetRemoveHeader()
     {
         // Header doesn't exist by default
-        $requestEnvironment = new RequestEnvironment();
-        $env = $requestEnvironment
-                    ->getEnv();
+        $builder = new EnvironmentBuilder();
+
+        $env = $builder->getEnv();
         $this->assertTrue(!isset($env['HTTP_ACCEPT']));
 
         // Add a header value
-        $env = $requestEnvironment
-                    ->setHeader('Accept', 'text/html')
-                    ->getEnv();
+        $env = $builder->setHeader('Accept', 'text/html')->getEnv();
         $this->assertEquals($env['HTTP_ACCEPT'], 'text/html');
 
         // Add an additional header value
-        $env = $requestEnvironment
-                    ->setHeader('Accept', 'application/json')
-                    ->getEnv();
+        $env = $builder->setHeader('Accept', 'application/json')->getEnv();
         $this->assertEquals($env['HTTP_ACCEPT'], 'text/html, application/json');
 
         // Add another header value
-        $env = $requestEnvironment
-                    ->setHeader('Accept', 'application/xml')
-                    ->getEnv();
+        $env = $builder->setHeader('Accept', 'application/xml')->getEnv();
         $this->assertEquals($env['HTTP_ACCEPT'], 'text/html, application/json, application/xml');
 
         // Add exisiting header value
-        $env = $requestEnvironment
-                    ->setHeader('Accept', 'application/json')
-                    ->getEnv();
+        $env = $builder->setHeader('Accept', 'application/json')->getEnv();
         $this->assertEquals($env['HTTP_ACCEPT'], 'text/html, application/json, application/xml');
 
         // Remove existing header value
-        $env = $requestEnvironment
-                    ->removeHeader('Accept', 'application/json')
-                    ->getEnv();
+        $env = $builder->removeHeader('Accept', 'application/json')->getEnv();
         $this->assertEquals($env['HTTP_ACCEPT'], 'text/html, application/xml');
 
         // Remove a non-existent header value
-        $env = $requestEnvironment
-                    ->removeHeader('Accept', 'nosuchthing')
-                    ->getEnv();
+        $env = $builder->removeHeader('Accept', 'nosuchthing')->getEnv();
         $this->assertEquals($env['HTTP_ACCEPT'], 'text/html, application/xml');
 
         // Remove entire header
-        $env = $requestEnvironment
-                    ->removeHeader('Accept')
-                    ->getEnv();
+        $env = $builder->removeHeader('Accept')->getEnv();
         $this->assertTrue(!isset($env['HTTP_ACCEPT']));
     }
 
     public function testSetRemoveCookie()
     {
         // No cookies by default
-        $requestEnvironment = new RequestEnvironment();
-        $env = $requestEnvironment
-                    ->getEnv();
+        $builder = new EnvironmentBuilder();
+
+        $env = $builder->getEnv();
         $this->assertTrue(!isset($env['HTTP_COOKIE']));
 
         // Add a cookie
-        $env = $requestEnvironment
-                    ->setCookie('cookie1', 'cookie_val1')
-                    ->getEnv();
+        $env = $builder->setCookie('cookie1', 'cookie_val1')->getEnv();
         $this->assertEquals($env['HTTP_COOKIE'], 'cookie1=' . urlencode('cookie_val1'));
 
         // Add another cookie
-        $env = $requestEnvironment
-                    ->setCookie('cookie2', 'cookie_val2')
-                    ->getEnv();
+        $env = $builder->setCookie('cookie2', 'cookie_val2')->getEnv();
         $this->assertEquals(
             $env['HTTP_COOKIE'],
             'cookie1=' . urlencode('cookie_val1') . '; ' .
@@ -206,9 +178,7 @@ class RequestEnvironmentTest extends TestCase
         );
 
         // ...and another cookie
-        $env = $requestEnvironment
-                    ->setCookie('cookie3', 'cookie_val3')
-                    ->getEnv();
+        $env = $builder->setCookie('cookie3', 'cookie_val3')->getEnv();
         $this->assertEquals(
             $env['HTTP_COOKIE'],
             'cookie1=' . urlencode('cookie_val1') . '; ' .
@@ -217,9 +187,7 @@ class RequestEnvironmentTest extends TestCase
         );
 
         // Add existing cookie
-        $env = $requestEnvironment
-                    ->setCookie('cookie2', 'cookie_val2')
-                    ->getEnv();
+        $env = $builder->setCookie('cookie2', 'cookie_val2')->getEnv();
         $this->assertEquals(
             $env['HTTP_COOKIE'],
             'cookie1=' . urlencode('cookie_val1') . '; ' .
@@ -228,9 +196,7 @@ class RequestEnvironmentTest extends TestCase
         );
 
         // Remove existing cookie
-        $env = $requestEnvironment
-                    ->removeCookie('cookie2')
-                    ->getEnv();
+        $env = $builder->removeCookie('cookie2')->getEnv();
         $this->assertEquals(
             $env['HTTP_COOKIE'],
             'cookie1=' . urlencode('cookie_val1') . '; ' .
@@ -238,9 +204,7 @@ class RequestEnvironmentTest extends TestCase
         );
 
         // Remove non-existent cookie
-        $env = $requestEnvironment
-                    ->removeCookie('cookie_1000')
-                    ->getEnv();
+        $env = $builder->removeCookie('cookie_1000')->getEnv();
         $this->assertEquals(
             $env['HTTP_COOKIE'],
             'cookie1=' . urlencode('cookie_val1') . '; ' .
@@ -254,10 +218,9 @@ class RequestEnvironmentTest extends TestCase
         $user_pass = 'mypass';
         
         $auth = new BasicAuthorization($user_name, $user_pass);
-        $requestEnvironment = new RequestEnvironment();
-        $env = $requestEnvironment
-                    ->setAuthorization($auth)
-                    ->getEnv();
+        
+        $builder = new EnvironmentBuilder();
+        $env = $builder->setAuthorization($auth)->getEnv();
 
         $this->assertEquals($env['HTTP_AUTHORIZATION'], $auth->getHeaderValue());
         $this->assertEquals($env['PHP_AUTH_USER'], $user_name);
