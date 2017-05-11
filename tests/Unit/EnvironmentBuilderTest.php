@@ -1,5 +1,5 @@
 <?php
-namespace Serato\Slimulator\Test;
+namespace Serato\Slimulator\Test\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Serato\Slimulator\EnvironmentBuilder;
@@ -110,13 +110,13 @@ class EnvironmentBuilderTest extends TestCase
         $env = $builder->setUri('/plain/url?var1=val1&var2=val2')->getEnv();
         $this->assertEquals($env['QUERY_STRING'], 'var1=val1&var2=val2');
 
-        $env = $builder->setGetParam('var3', 'val3')->getEnv();
+        $env = $builder->addGetParam('var3', 'val3')->getEnv();
         $this->assertEquals($env['QUERY_STRING'], 'var1=val1&var2=val2&var3=val3');
 
         $env = $builder->removeGetParam('var2')->getEnv();
         $this->assertEquals($env['QUERY_STRING'], 'var1=val1&var3=val3');
 
-        $env = $builder->setGetParams(['var4' =>'val4', 'var5' =>'val5'])->getEnv();
+        $env = $builder->addGetParams(['var4' =>'val4', 'var5' =>'val5'])->getEnv();
         $this->assertEquals($env['QUERY_STRING'], 'var1=val1&var3=val3&var4=val4&var5=val5');
     }
 
@@ -129,19 +129,19 @@ class EnvironmentBuilderTest extends TestCase
         $this->assertTrue(!isset($env['HTTP_ACCEPT']));
 
         // Add a header value
-        $env = $builder->setHeader('Accept', 'text/html')->getEnv();
+        $env = $builder->addHeader('Accept', 'text/html')->getEnv();
         $this->assertEquals($env['HTTP_ACCEPT'], 'text/html');
 
         // Add an additional header value
-        $env = $builder->setHeader('Accept', 'application/json')->getEnv();
+        $env = $builder->addHeader('Accept', 'application/json')->getEnv();
         $this->assertEquals($env['HTTP_ACCEPT'], 'text/html, application/json');
 
         // Add another header value
-        $env = $builder->setHeader('Accept', 'application/xml')->getEnv();
+        $env = $builder->addHeader('Accept', 'application/xml')->getEnv();
         $this->assertEquals($env['HTTP_ACCEPT'], 'text/html, application/json, application/xml');
 
         // Add exisiting header value
-        $env = $builder->setHeader('Accept', 'application/json')->getEnv();
+        $env = $builder->addHeader('Accept', 'application/json')->getEnv();
         $this->assertEquals($env['HTTP_ACCEPT'], 'text/html, application/json, application/xml');
 
         // Remove existing header value
@@ -166,11 +166,11 @@ class EnvironmentBuilderTest extends TestCase
         $this->assertTrue(!isset($env['HTTP_COOKIE']));
 
         // Add a cookie
-        $env = $builder->setCookie('cookie1', 'cookie_val1')->getEnv();
+        $env = $builder->addCookie('cookie1', 'cookie_val1')->getEnv();
         $this->assertEquals($env['HTTP_COOKIE'], 'cookie1=' . urlencode('cookie_val1'));
 
         // Add another cookie
-        $env = $builder->setCookie('cookie2', 'cookie_val2')->getEnv();
+        $env = $builder->addCookie('cookie2', 'cookie_val2')->getEnv();
         $this->assertEquals(
             $env['HTTP_COOKIE'],
             'cookie1=' . urlencode('cookie_val1') . '; ' .
@@ -178,7 +178,7 @@ class EnvironmentBuilderTest extends TestCase
         );
 
         // ...and another cookie
-        $env = $builder->setCookie('cookie3', 'cookie_val3')->getEnv();
+        $env = $builder->addCookie('cookie3', 'cookie_val3')->getEnv();
         $this->assertEquals(
             $env['HTTP_COOKIE'],
             'cookie1=' . urlencode('cookie_val1') . '; ' .
@@ -187,7 +187,7 @@ class EnvironmentBuilderTest extends TestCase
         );
 
         // Add existing cookie
-        $env = $builder->setCookie('cookie2', 'cookie_val2')->getEnv();
+        $env = $builder->addCookie('cookie2', 'cookie_val2')->getEnv();
         $this->assertEquals(
             $env['HTTP_COOKIE'],
             'cookie1=' . urlencode('cookie_val1') . '; ' .

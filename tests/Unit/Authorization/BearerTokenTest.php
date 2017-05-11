@@ -1,5 +1,5 @@
 <?php
-namespace Serato\Slimulator\Test\Authorization;
+namespace Serato\Slimulator\Test\Unit\Authorization;
 
 use PHPUnit\Framework\TestCase;
 use Serato\Slimulator\Authorization\BearerToken;

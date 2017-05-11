@@ -4,7 +4,7 @@ namespace Serato\Slimulator\Authorization;
 use Serato\Slimulator\Authorization\HttpAuthorizationInterface;
 
 /**
- * Creates environment variables for a request using HTTP `Basic` authorization.
+ * Creates PHP environment variables for a request using HTTP `Basic` authorization.
  */
 class BasicAuthorization implements HttpAuthorizationInterface
 {
@@ -24,7 +24,7 @@ class BasicAuthorization implements HttpAuthorizationInterface
     private $password;
 
     /**
-     * Constructs the object
+     * Constructs the object.
      *
      * @param string    $name       User name
      * @param string    $Password   Password
@@ -38,7 +38,7 @@ class BasicAuthorization implements HttpAuthorizationInterface
     }
 
     /**
-     * Sets the user name
+     * Sets the user name.
      *
      * @param string    $name       User name
      *
@@ -51,7 +51,7 @@ class BasicAuthorization implements HttpAuthorizationInterface
     }
 
     /**
-     * Sets the password
+     * Sets the password.
      *
      * @param string    $Password  Password
      *
@@ -64,7 +64,7 @@ class BasicAuthorization implements HttpAuthorizationInterface
     }
 
     /**
-     * Gets the user name
+     * Gets the user name.
      *
      * @return string
      */
@@ -74,7 +74,7 @@ class BasicAuthorization implements HttpAuthorizationInterface
     }
 
     /**
-     * Gets the password
+     * Gets the password.
      *
      * @return string
      */
@@ -88,7 +88,7 @@ class BasicAuthorization implements HttpAuthorizationInterface
      */
     public function getHeaderValue(): string
     {
-        return base64_encode($this->getName() . ':' . $this->getPassword());
+        return 'Basic ' . base64_encode($this->getName() . ':' . $this->getPassword());
     }
 
     /**

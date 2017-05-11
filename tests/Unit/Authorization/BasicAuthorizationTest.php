@@ -1,5 +1,5 @@
 <?php
-namespace Serato\Slimulator\Test\Authorization;
+namespace Serato\Slimulator\Test\Unit\Authorization;
 
 use PHPUnit\Framework\TestCase;
 use Serato\Slimulator\Authorization\BasicAuthorization;
@@ -36,11 +36,13 @@ class BasicAuthorizationTest extends TestCase
 
         $auth = new BasicAuthorization($user_name, $user_pass);
 
-        $headerVal = $auth->getHeaderValue();
+        $header = explode(' ', $auth->getHeaderValue());
 
-        $this->assertTrue(base64_decode($headerVal) !== false);
+        $this->assertEquals(2, count($header));
 
-        $data = base64_decode($headerVal);
+        $this->assertTrue(base64_decode($header[1]) !== false);
+
+        $data = base64_decode($header[1]);
         $this->assertEquals(strpos($data, $user_name), 0);
         $this->assertTrue(strpos($data, $user_pass) > 0);
     }

@@ -1,19 +1,18 @@
 <?php
-namespace Serato\Slimulator;
+namespace Serato\Slimulator\RequestBody;
 
 use Slim\Http\Body;
 
 /**
  * Provides a PSR-7 implementation of a reusable raw request body
  *
- * Changes from the standard `Slim\Http\RequestBody` include:
- *
- * - Does not copy the php://input stream to php://temp
+ * Identical to `Slim\Http\RequestBody` except that it does not
+ * copy the php://input stream to php://temp.
  */
-class RequestBody extends Body
+class RequestBodyStream extends Body
 {
     /**
-     * Create a new RequestBody.
+     * Create a new RequestBodyStream.
      */
     public function __construct()
     {

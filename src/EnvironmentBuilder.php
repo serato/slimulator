@@ -1,10 +1,13 @@
 <?php
 namespace Serato\Slimulator;
 
+use Serato\Slimulator\Request;
+use Slim\Http\Environment;
 use Serato\Slimulator\Authorization\HttpAuthorizationInterface;
+use Serato\Slimulator\RequestBody\RequestBodyInterface;
 
 /**
- * Creates a PHP request environment
+ * Provides an abstracted, fluent interface for creating a PHP request environment.
  */
 class EnvironmentBuilder
 {
@@ -76,7 +79,7 @@ class EnvironmentBuilder
      * @var int
      */
     // TODO: Should be set by size of request body
-    private $contentLength; # Determined by header
+    private $contentLength;
 
     /**
      * GET parameters
@@ -100,6 +103,23 @@ class EnvironmentBuilder
     private $authorization;
 
     /**
+     * The body of the request
+     *
+     * @var RequestBodyInterface;
+     */
+    private $requestBody;
+
+    /**
+     * Create a new EnvironmentBuilder
+     *
+     * @return self
+     */
+    public static function create(): self
+    {
+        return new self;
+    }
+
+    /**
      * Constructs the object
      *
      * @return void
@@ -109,11 +129,11 @@ class EnvironmentBuilder
         // Set some defaults
         $this
             ->setUriDefaults()
-            ->setHeader('User-Agent', self::DEFAULT_USER_AGENT)
-            ->setHeader('Accept-Encoding', 'gzip')
-            ->setHeader('Accept-Encoding', 'deflate')
-            ->setHeader('Cache-Control', 'no-cache')
-            ->setHeader('Connection', 'keep-alive');
+            ->addHeader('User-Agent', self::DEFAULT_USER_AGENT)
+            ->addHeader('Accept-Encoding', 'gzip')
+            ->addHeader('Accept-Encoding', 'deflate')
+            ->addHeader('Cache-Control', 'no-cache')
+            ->addHeader('Connection', 'keep-alive');
     }
 
     /**
@@ -182,7 +202,7 @@ class EnvironmentBuilder
                     break;
                 case 'query':
                     parse_str($v, $result);
-                    $this->setGetParams($result);
+                    $this->addGetParams($result);
                     break;
             }
         }
@@ -190,37 +210,37 @@ class EnvironmentBuilder
     }
 
     /**
-     * Sets a single GET parameter name and value
+     * Adds a single GET parameter.
      *
      * @param string    $name   Parameter name
      * @param mixed     $value  Parameter value
      *
      * @return self
      */
-    public function setGetParam(string $name, $value): self
+    public function addGetParam(string $name, $value): self
     {
         $this->getParams[$name] = $value;
         return $this;
     }
 
     /**
-     * Sets multiple GET parameters from a single name/value array.
+     * Adds multiple GET parameters.
      * eg. `['param1' => 'val1', 'param2' => 'val2']`.
      *
      * @param array $params     Name/value array of parameters
      *
      * @return self
      */
-    public function setGetParams(array $params): self
+    public function addGetParams(array $params): self
     {
         foreach ($params as $k => $v) {
-            $this->setGetParam($k, $v);
+            $this->addGetParam($k, $v);
         }
         return $this;
     }
 
     /**
-     * Removes a named GET parameter.
+     * Removes a GET parameter.
      *
      * @return self
      */
@@ -231,7 +251,7 @@ class EnvironmentBuilder
     }
 
     /**
-     * Sets a single value for a named HTTP request header.
+     * Adds a single value for a named HTTP request header.
      *
      * Can be called multiple times to set multiple comma separated values for a
      * single header.
@@ -241,7 +261,7 @@ class EnvironmentBuilder
      *
      * @return self
      */
-    public function setHeader(string $name, string $value): self
+    public function addHeader(string $name, string $value): self
     {
         // Note currently doesn't support Quality Value syntax
         // https://developer.mozilla.org/en-US/docs/Glossary/Quality_Values
@@ -288,14 +308,14 @@ class EnvironmentBuilder
     }
 
     /**
-     * Sets a cookie.
+     * Adds a cookie.
      *
      * @param string $name      Cookie name
      * @param string $value     Cookie value
      *
      * @return self
      */
-    public function setCookie(string $name, string $value): self
+    public function addCookie(string $name, string $value): self
     {
         $this->cookies[$name] = $value;
         return $this;
@@ -313,7 +333,7 @@ class EnvironmentBuilder
     }
 
     /**
-     * Sets an HTTP authorization scheme
+     * Sets an HTTP authorization scheme.
      *
      * @param HttpAuthorizationInterface $authorization Authorization scheme
      *
@@ -326,13 +346,47 @@ class EnvironmentBuilder
     }
 
     /**
-     * Removes a previously defined HTTP authorization scheme
+     * Removes the current HTTP authorization scheme.
      *
      * @return self
      */
     public function removeAuthorization(): self
     {
         $this->authorization = null;
+        return $this;
+    }
+
+    /**
+     * Sets the request body.
+     *
+     * @param RequestBodyInterface $requestBody Request body
+     *
+     * @return self
+     */
+    public function setRequestBody(RequestBodyInterface $requestBody): self
+    {
+        $this->requestBody = $requestBody;
+        return $this;
+    }
+
+    /**
+     * Returns the request body.
+     *
+     * @return RequestBodyInterface|null
+     */
+    public function getRequestBody()
+    {
+        return $this->requestBody;
+    }
+
+    /**
+     * Removes the current request body.
+     *
+     * @return self
+     */
+    public function removeRequestBody(): self
+    {
+        $this->requestBody = null;
         return $this;
     }
 
@@ -369,6 +423,11 @@ class EnvironmentBuilder
             $vars['HTTP_COOKIE'] = $this->getCookieHeaderValue();
         }
 
+        if ($this->getRequestBody() !== null) {
+            $this->addHeader('Content-Type', $this->getRequestBody()->getContentType());
+            $this->contentLength = $this->getRequestBody()->getContentLength();
+        }
+
         foreach ($this->headers as $name => $value) {
             $headerName = 'HTTP_' . str_replace('-', '_', strtoupper($name));
             $headerValue = implode(', ', $value);
@@ -385,6 +444,16 @@ class EnvironmentBuilder
                 'CONTENT_LENGTH'    => $this->contentLength
             ]
         );
+    }
+
+    /**
+     * Creates a new Slim Environment from the current EnvironmentBuilder state.
+     *
+     * @return Environment
+     */
+    public function getSlimEnvironment(): Environment
+    {
+        return Environment::mock($this->getEnv());
     }
 
     private function getCookieHeaderValue(): string

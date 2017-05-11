@@ -4,7 +4,7 @@ namespace Serato\Slimulator\Authorization;
 use Serato\Slimulator\Authorization\HttpAuthorizationInterface;
 
 /**
- * Creates environment variables for a request using Bearer token authorization.
+ * Creates PHP environment variables for a request using `Bearer` token authorization.
  */
 class BearerToken implements HttpAuthorizationInterface
 {
@@ -16,7 +16,7 @@ class BearerToken implements HttpAuthorizationInterface
     private $token;
 
     /**
-     * Constructs the object
+     * Constructs the object.
      *
      * @param string    $token       Token
      *
@@ -28,7 +28,7 @@ class BearerToken implements HttpAuthorizationInterface
     }
 
     /**
-     * Sets the user name
+     * Sets the user bearer token value.
      *
      * @param string    $token       Token
      *
@@ -41,7 +41,7 @@ class BearerToken implements HttpAuthorizationInterface
     }
 
     /**
-     * Gets the token
+     * Gets the bearer token value.
      *
      * @return string
      */
