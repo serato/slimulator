@@ -39,7 +39,7 @@ class RequestTest extends TestCase
         array $envCustomHeaderValues,
         string $requestUriPath,
         array $requestGetParams,
-        string $requestCustomHeaderValue 
+        string $requestCustomHeaderValue
     ) {
         $env = new EnvironmentBuilder();
 
@@ -65,10 +65,10 @@ class RequestTest extends TestCase
         $this->assertEquals($request->getUri()->getPath(), $requestUriPath);
         $this->assertEquals($request->getQueryParams(), $requestGetParams);
         $this->assertEquals($request->getCookieParams(), $envCookies);
-        if ( $request->hasHeader(self::CUSTOM_HEADER_NAME) ) {
+        if ($request->hasHeader(self::CUSTOM_HEADER_NAME)) {
             $this->assertEquals(
                 $request->getHeader(self::CUSTOM_HEADER_NAME)[0],
-                $requestCustomHeaderValue 
+                $requestCustomHeaderValue
             );
         }
     }

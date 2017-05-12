@@ -27,7 +27,7 @@ class IntegrationTest extends TestCase
 
     public function testNotFoundUriAcceptHtml()
     {
-        $callable = function() {
+        $callable = function () {
             $env = new EnvironmentBuilder();
             return $env->setUri(self::NOT_FOUND_URI);
         };
@@ -45,7 +45,7 @@ class IntegrationTest extends TestCase
      */
     public function testNotFoundUriAcceptJson()
     {
-        $callable = function() {
+        $callable = function () {
             $env = new EnvironmentBuilder();
             return $env
                 ->setUri(self::NOT_FOUND_URI)
@@ -63,7 +63,7 @@ class IntegrationTest extends TestCase
      */
     public function testNotFoundUriAcceptXml()
     {
-        $callable = function() {
+        $callable = function () {
             $env = new EnvironmentBuilder();
             return $env
                 ->setUri(self::NOT_FOUND_URI)
@@ -78,7 +78,7 @@ class IntegrationTest extends TestCase
 
     public function testValidUriAcceptHtml()
     {
-        $callable = function() {
+        $callable = function () {
             $env = new EnvironmentBuilder();
             return $env->setUri(self::HTML_URI);
         };
@@ -91,7 +91,7 @@ class IntegrationTest extends TestCase
 
     public function testGetParams()
     {
-        $callable = function() {
+        $callable = function () {
             $env = new EnvironmentBuilder();
             return $env
                 ->setUri(self::JSON_URI)
@@ -107,7 +107,7 @@ class IntegrationTest extends TestCase
 
     public function testUrlEncodedEntityBody()
     {
-        $callable = function() {
+        $callable = function () {
             $env = new EnvironmentBuilder();
             return $env
                 ->setUri(self::JSON_URI)
@@ -124,7 +124,7 @@ class IntegrationTest extends TestCase
 
     public function testMultipartEntityBody()
     {
-        $callable = function() {
+        $callable = function () {
             $env = new EnvironmentBuilder();
             return $env
                 ->setUri(self::JSON_URI)
@@ -141,7 +141,7 @@ class IntegrationTest extends TestCase
 
     public function testMultipartEntityBodyWithFiles()
     {
-        $callable = function() {
+        $callable = function () {
             $env = new EnvironmentBuilder();
             return $env
                 ->setUri(self::JSON_URI)
@@ -174,7 +174,7 @@ class IntegrationTest extends TestCase
 
     public function testJsonEntityBody()
     {
-        $callable = function() {
+        $callable = function () {
             $env = new EnvironmentBuilder();
             return $env
                 ->setUri(self::JSON_URI)
@@ -191,7 +191,7 @@ class IntegrationTest extends TestCase
 
     public function testBasicAuth()
     {
-        $callable = function() {
+        $callable = function () {
             $env = new EnvironmentBuilder();
             return $env
                 ->setUri(self::JSON_URI)
@@ -209,7 +209,7 @@ class IntegrationTest extends TestCase
 
     public function testBearerTokenAuth()
     {
-        $callable = function() {
+        $callable = function () {
             $env = new EnvironmentBuilder();
             return $env
                 ->setUri(self::JSON_URI)
