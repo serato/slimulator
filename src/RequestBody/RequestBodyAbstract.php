@@ -27,7 +27,7 @@ abstract class RequestBodyAbstract implements RequestBodyInterface
      */
     public function getContentLength(): int
     {
-        return $this->getRawRequestBody() * 8;
+        return strlen($this->getRawRequestBody()) * 8;
     }
 
     /**
