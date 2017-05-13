@@ -5,15 +5,22 @@ php:
 cache:
   directories:
   - "$HOME/.composer/cache"
+env:
+- SLIM_VERSION="3.8.*"
+- SLIM_VERSION="3.7.*"
+- SLIM_VERSION="3.6.*"
+- SLIM_VERSION="3.5.*"
 branches:
   only:
   - master
   - "/^v\\d+\\.\\d+(\\.\\d+)?(-\\S*)?$/"
 before_install:
 - phpenv config-rm xdebug.ini
-install: composer install
+install:
+- composer install
+- composer require slim/slim:${SLIM_VERSION}
 script:
-- php vendor/bin/phpunit -c phpunit.xml
+- php vendor/bin/phpunit
 - "./vendor/bin/phpcs"
 after_success:
 - php sami.phar update phpdoc.php
