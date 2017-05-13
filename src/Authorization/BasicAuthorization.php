@@ -27,7 +27,7 @@ class BasicAuthorization implements HttpAuthorizationInterface
      * Constructs the object.
      *
      * @param string    $name       User name
-     * @param string    $Password   Password
+     * @param string    $password   Password
      *
      * @return void
      */
@@ -53,7 +53,7 @@ class BasicAuthorization implements HttpAuthorizationInterface
     /**
      * Sets the password.
      *
-     * @param string    $Password  Password
+     * @param string  $password  Password
      *
      * @return self
      */

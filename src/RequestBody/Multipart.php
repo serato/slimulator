@@ -71,7 +71,7 @@ class Multipart extends RequestBodyWithParamsAbstract
      * @link http://php.net/manual/en/reserved.variables.files.php
      *
      * @param string    $name           Request parameter name
-     * @param mixed     $value          Path to file
+     * @param mixed     $filePath       Path to file
      * @param int       uploadStatus    Status of the file upload process
      *
      * @return self
