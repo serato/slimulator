@@ -118,7 +118,12 @@ class RequestTest extends TestCase
     }
 
     /**
-     * @expectedException \Slim\Exception\InvalidMethodException
+     * Note: Slim 3.8.* added a Slim\Exception\InvalidMethodException
+     * exception class which extends InvalidArgumentException. But use
+     * InvalidArgumentException to maintain compatibility with older Slim
+     * versions.
+     *
+     * @expectedException \InvalidArgumentException
      */
     public function testInvalidHTTPMethod()
     {
