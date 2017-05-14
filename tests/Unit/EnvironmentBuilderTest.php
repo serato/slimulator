@@ -12,16 +12,14 @@ class EnvironmentBuilderTest extends TestCase
 {
     public function testDefaults()
     {
-        $builder = new EnvironmentBuilder();
-
-        $env = $builder->getEnv();
+        $env = EnvironmentBuilder::create()->getEnv();
         $this->assertTrue(is_array($env));
         $this->assertEquals($env['REQUEST_METHOD'], 'GET');
     }
 
     public function testSetRequestMethod()
     {
-        $builder = new EnvironmentBuilder();
+        $builder = EnvironmentBuilder::create();
         
         $env = $builder->setRequestMethod('POST')->getEnv();
         $this->assertEquals($env['REQUEST_METHOD'], 'POST');
@@ -32,7 +30,7 @@ class EnvironmentBuilderTest extends TestCase
 
     public function testSetServerProtocol()
     {
-        $builder = new EnvironmentBuilder();
+        $builder = EnvironmentBuilder::create();
 
         $env = $builder->setServerProtocol('HTTP/1.2')->getEnv();
         $this->assertEquals($env['SERVER_PROTOCOL'], 'HTTP/1.2');
@@ -46,9 +44,7 @@ class EnvironmentBuilderTest extends TestCase
      */
     public function testSetUri($requestUri, $uri, $queryString, $host, $port, $isHttps)
     {
-        $builder = new EnvironmentBuilder();
-        
-        $env = $builder->setUri($requestUri)->getEnv();
+        $env = EnvironmentBuilder::create()->setUri($requestUri)->getEnv();
 
         $this->assertEquals($env['REQUEST_URI'], $uri);
         $this->assertEquals($env['QUERY_STRING'], $queryString);
@@ -105,7 +101,7 @@ class EnvironmentBuilderTest extends TestCase
 
     public function testSetRemoveGetParams()
     {
-        $builder = new EnvironmentBuilder();
+        $builder = EnvironmentBuilder::create();
 
         $env = $builder->setUri('/plain/url?var1=val1&var2=val2')->getEnv();
         $this->assertEquals($env['QUERY_STRING'], 'var1=val1&var2=val2');
@@ -123,7 +119,7 @@ class EnvironmentBuilderTest extends TestCase
     public function testSetRemoveHeader()
     {
         // Header doesn't exist by default
-        $builder = new EnvironmentBuilder();
+        $builder = EnvironmentBuilder::create();
 
         $env = $builder->getEnv();
         $this->assertTrue(!isset($env['HTTP_ACCEPT']));
@@ -160,7 +156,7 @@ class EnvironmentBuilderTest extends TestCase
     public function testSetRemoveCookie()
     {
         // No cookies by default
-        $builder = new EnvironmentBuilder();
+        $builder = EnvironmentBuilder::create();
 
         $env = $builder->getEnv();
         $this->assertTrue(!isset($env['HTTP_COOKIE']));
@@ -219,8 +215,7 @@ class EnvironmentBuilderTest extends TestCase
         
         $auth = BasicAuthorization::create($user_name, $user_pass);
         
-        $builder = new EnvironmentBuilder();
-        $env = $builder->setAuthorization($auth)->getEnv();
+        $env = EnvironmentBuilder::create()->setAuthorization($auth)->getEnv();
 
         $this->assertEquals($env['HTTP_AUTHORIZATION'], $auth->getHeaderValue());
         $this->assertEquals($env['PHP_AUTH_USER'], $user_name);

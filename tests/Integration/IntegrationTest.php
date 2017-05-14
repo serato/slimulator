@@ -28,8 +28,8 @@ class IntegrationTest extends TestCase
     public function testNotFoundUriAcceptHtml()
     {
         $callable = function () {
-            $env = new EnvironmentBuilder();
-            return $env->setUri(self::NOT_FOUND_URI);
+            return EnvironmentBuilder::create()
+                ->setUri(self::NOT_FOUND_URI);
         };
 
         $response = $this->bootstrapSlimApp($callable);
@@ -46,8 +46,7 @@ class IntegrationTest extends TestCase
     public function testNotFoundUriAcceptJson()
     {
         $callable = function () {
-            $env = new EnvironmentBuilder();
-            return $env
+            return EnvironmentBuilder::create()
                 ->setUri(self::NOT_FOUND_URI)
                 ->addHeader('Accept', 'application/json');
         };
@@ -64,8 +63,7 @@ class IntegrationTest extends TestCase
     public function testNotFoundUriAcceptXml()
     {
         $callable = function () {
-            $env = new EnvironmentBuilder();
-            return $env
+            return EnvironmentBuilder::create()
                 ->setUri(self::NOT_FOUND_URI)
                 ->addHeader('Accept', 'text/xml');
         };
@@ -79,8 +77,7 @@ class IntegrationTest extends TestCase
     public function testValidUriAcceptHtml()
     {
         $callable = function () {
-            $env = new EnvironmentBuilder();
-            return $env->setUri(self::HTML_URI);
+            return EnvironmentBuilder::create()->setUri(self::HTML_URI);
         };
 
         $response = $this->bootstrapSlimApp($callable);
@@ -92,8 +89,7 @@ class IntegrationTest extends TestCase
     public function testGetParams()
     {
         $callable = function () {
-            $env = new EnvironmentBuilder();
-            return $env
+            return EnvironmentBuilder::create()
                 ->setUri(self::JSON_URI)
                 ->addGetParams(self::REQUEST_PARAMS);
         };
@@ -108,8 +104,7 @@ class IntegrationTest extends TestCase
     public function testUrlEncodedEntityBody()
     {
         $callable = function () {
-            $env = new EnvironmentBuilder();
-            return $env
+            return EnvironmentBuilder::create()
                 ->setUri(self::JSON_URI)
                 ->setRequestMethod('POST')
                 ->setRequestBody(UrlEncoded::create(self::REQUEST_PARAMS));
@@ -125,8 +120,7 @@ class IntegrationTest extends TestCase
     public function testMultipartEntityBody()
     {
         $callable = function () {
-            $env = new EnvironmentBuilder();
-            return $env
+            return EnvironmentBuilder::create()
                 ->setUri(self::JSON_URI)
                 ->setRequestMethod('POST')
                 ->setRequestBody(Multipart::create(self::REQUEST_PARAMS));
@@ -142,8 +136,7 @@ class IntegrationTest extends TestCase
     public function testMultipartEntityBodyWithFiles()
     {
         $callable = function () {
-            $env = new EnvironmentBuilder();
-            return $env
+            return EnvironmentBuilder::create()
                 ->setUri(self::JSON_URI)
                 ->setRequestMethod('POST')
                 ->setRequestBody(
@@ -175,8 +168,7 @@ class IntegrationTest extends TestCase
     public function testJsonEntityBody()
     {
         $callable = function () {
-            $env = new EnvironmentBuilder();
-            return $env
+            return EnvironmentBuilder::create()
                 ->setUri(self::JSON_URI)
                 ->setRequestMethod('POST')
                 ->setRequestBody(Json::create(self::REQUEST_PARAMS));
@@ -192,8 +184,7 @@ class IntegrationTest extends TestCase
     public function testBasicAuth()
     {
         $callable = function () {
-            $env = new EnvironmentBuilder();
-            return $env
+            return EnvironmentBuilder::create()
                 ->setUri(self::JSON_URI)
                 ->setAuthorization(
                     BasicAuthorization::create(self::AUTH_USER, self::USER_PASS)
@@ -210,8 +201,7 @@ class IntegrationTest extends TestCase
     public function testBearerTokenAuth()
     {
         $callable = function () {
-            $env = new EnvironmentBuilder();
-            return $env
+            return EnvironmentBuilder::create()
                 ->setUri(self::JSON_URI)
                 ->setAuthorization(
                     BearerToken::create(self::BEARER_TOKEN)
