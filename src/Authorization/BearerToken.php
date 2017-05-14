@@ -16,6 +16,18 @@ class BearerToken implements HttpAuthorizationInterface
     private $token;
 
     /**
+     * Create a new BearerToken
+     *
+     * @param string    $token       Token
+     *
+     * @return static
+     */
+    public static function create(string $token): self
+    {
+        return new static($token);
+    }
+
+    /**
      * Constructs the object.
      *
      * @param string    $token       Token

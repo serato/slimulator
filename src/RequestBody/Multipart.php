@@ -11,25 +11,6 @@ use Serato\Slimulator\RequestBody\RequestBodyWithParamsAbstract;
  * The `mulipart/form-data` content type allows for both form data and file uploads
  * to be encoded into the request body.
  *
- * PHP exposes form data via the `$_POST` superglobal and file uploads via the
- * `$_FILES` superglobal.
- *
- * For HTTP POST requests whose content type is `mulipart/form-data`, the Slim
- * framework references the `$_POST` and `$_FILES` superglobals rather than the
- * raw request body.
- *
- * Therefore, this class does not create a raw request body in the
- * `self::getRawRequestBody` method.
- *
- * Instead, the value returned by the `self::getParams` method can be used in place
- * of the `$_POST` superglobal and the value returned by `self::getFiles` can be
- * used in place of the `$_FILES` superglobal.
- *
- * Note: See the PHP documentation on the `$_FILES` superglobal for more information
- * about what properties are available from this superglobal.
- *
- * @link http://php.net/manual/en/reserved.variables.files.php
- *
  * Note: the HTTP specification states that only POST requests can identity request
  * bodies whose content type is `mulipart/form-data`.
  *

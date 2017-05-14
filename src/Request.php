@@ -15,9 +15,10 @@ use Slim\Http\Cookies;
  *
  * The `self::createFromEnvironmentBuilder` method creates the Request using a
  * `Serato\Slimulator\EnvironmentBuilder` instance to provide:
- * - the request body's stream interface
- * - a substitute for the `$_POST` PHP superglobal.
- * - a substitute for the `$_FILES` PHP superglobal.
+ *
+ * - The request body's stream interface
+ * - A substitute for the `$_POST` PHP superglobal.
+ * - A substitute for the `$_FILES` PHP superglobal.
  *
  * @link https://github.com/slimphp/Slim
  */
@@ -26,20 +27,19 @@ class Request extends SlimRequest
     /**
      * Create new HTTP request with data extracted from the EnvironmentBuilder object
      *
-     * @param  Environment          $environment        Slim Environment
      * @param  EnvironmentBuilder   $environmentBuilder Slimulator EnvironmentBuilder object
      *
      * @return static
      */
     public static function createFromEnvironmentBuilder(
-        Environment $environment,
         EnvironmentBuilder $environmentBuilder
     ) {
-        $method = $environment['REQUEST_METHOD'];
-        $uri = Uri::createFromEnvironment($environment);
-        $headers = Headers::createFromEnvironment($environment);
-        $cookies = Cookies::parseHeader($headers->get('Cookie', []));
-        $serverParams = $environment->all();
+        $environment    = $environmentBuilder->getSlimEnvironment();
+        $method         = $environment['REQUEST_METHOD'];
+        $uri            = Uri::createFromEnvironment($environment);
+        $headers        = Headers::createFromEnvironment($environment);
+        $cookies        = Cookies::parseHeader($headers->get('Cookie', []));
+        $serverParams   = $environment->all();
         
         // Use the stream from the $environmentBuilder
         // FYI: Slim Request class uses `Slim\Http\RequestBody` class
