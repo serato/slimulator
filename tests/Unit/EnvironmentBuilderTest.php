@@ -217,7 +217,7 @@ class EnvironmentBuilderTest extends TestCase
         $user_name = 'myuser';
         $user_pass = 'mypass';
         
-        $auth = new BasicAuthorization($user_name, $user_pass);
+        $auth = BasicAuthorization::create($user_name, $user_pass);
         
         $builder = new EnvironmentBuilder();
         $env = $builder->setAuthorization($auth)->getEnv();

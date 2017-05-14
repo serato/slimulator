@@ -13,7 +13,7 @@ class BearerTokenTest extends TestCase
     {
         $token = 'my_big_log_token';
 
-        $auth = new BearerToken($token);
+        $auth = BearerToken::create($token);
 
         $this->assertEquals($auth->getToken(), $token);
 
@@ -28,7 +28,7 @@ class BearerTokenTest extends TestCase
     {
         $token = 'my_big_log_token';
 
-        $auth = new BearerToken($token);
+        $auth = BearerToken::create($token);
 
         $headerVal = $auth->getHeaderValue();
 

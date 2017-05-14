@@ -196,7 +196,7 @@ class IntegrationTest extends TestCase
             return $env
                 ->setUri(self::JSON_URI)
                 ->setAuthorization(
-                    new BasicAuthorization(self::AUTH_USER, self::USER_PASS)
+                    BasicAuthorization::create(self::AUTH_USER, self::USER_PASS)
                 );
         };
 
@@ -214,7 +214,7 @@ class IntegrationTest extends TestCase
             return $env
                 ->setUri(self::JSON_URI)
                 ->setAuthorization(
-                    new BearerToken(self::BEARER_TOKEN)
+                    BearerToken::create(self::BEARER_TOKEN)
                 );
         };
 

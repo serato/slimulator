@@ -24,6 +24,19 @@ class BasicAuthorization implements HttpAuthorizationInterface
     private $password;
 
     /**
+     * Create a new BasicAuthorization
+     *
+     * @param string    $name       User name
+     * @param string    $password   Password
+     *
+     * @return static
+     */
+    public static function create(string $name, string $password): self
+    {
+        return new static($name, $password);
+    }
+
+    /**
      * Constructs the object.
      *
      * @param string    $name       User name

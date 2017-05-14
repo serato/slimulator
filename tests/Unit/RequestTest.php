@@ -81,7 +81,7 @@ class RequestTest extends TestCase
         $env
             ->setUri('https://my.server.com/level1/level2')
             ->setAuthorization(
-                new BasicAuthorization($user, $pass)
+                BasicAuthorization::create($user, $pass)
             );
         $request = Request::createFromEnvironmentBuilder(
             $env->getSlimEnvironment(),
@@ -104,7 +104,7 @@ class RequestTest extends TestCase
         $env
             ->setUri('https://my.server.com/level1/level2')
             ->setAuthorization(
-                new BearerToken('my_big_log_token')
+                BearerToken::create('my_big_log_token')
             );
         $request = Request::createFromEnvironmentBuilder(
             $env->getSlimEnvironment(),
