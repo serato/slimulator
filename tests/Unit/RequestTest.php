@@ -54,10 +54,7 @@ class RequestTest extends TestCase
             $env = $env->addHeader(self::CUSTOM_HEADER_NAME, $val);
         }
 
-        $request = Request::createFromEnvironmentBuilder(
-            $env->getSlimEnvironment(),
-            $env
-        );
+        $request = Request::createFromEnvironmentBuilder($env);
 
         $this->assertEquals($request->getMethod(), $envRequestMethod);
         $this->assertEquals($request->getUri()->getPath(), $requestUriPath);
@@ -81,10 +78,7 @@ class RequestTest extends TestCase
             ->setAuthorization(
                 BasicAuthorization::create($user, $pass)
             );
-        $request = Request::createFromEnvironmentBuilder(
-            $env->getSlimEnvironment(),
-            $env
-        );
+        $request = Request::createFromEnvironmentBuilder($env);
         $this->assertTrue($request->hasHeader('Authorization'));
         $this->assertRegExp(
             '/Basic/',
@@ -103,10 +97,7 @@ class RequestTest extends TestCase
             ->setAuthorization(
                 BearerToken::create('my_big_log_token')
             );
-        $request = Request::createFromEnvironmentBuilder(
-            $env->getSlimEnvironment(),
-            $env
-        );
+        $request = Request::createFromEnvironmentBuilder($env);
         $this->assertTrue($request->hasHeader('Authorization'));
         $this->assertRegExp(
             '/Bearer/',
@@ -127,10 +118,7 @@ class RequestTest extends TestCase
         $env = EnvironmentBuilder::create()
             ->setRequestMethod('NOT_A_REAL_HTTP_METHOD')
             ->setUri('https://my.server.com/level1/level2');
-        $request = Request::createFromEnvironmentBuilder(
-            $env->getSlimEnvironment(),
-            $env
-        );
+        $request = Request::createFromEnvironmentBuilder($env);
     }
 
     public function testRequestJsonEntityBody()
@@ -139,10 +127,7 @@ class RequestTest extends TestCase
             ->setRequestMethod('POST')
             ->setUri('https://my.server.com/level1/level2')
             ->setRequestBody(Json::create(self::ENTITY_BODY_DATA));
-        $request = Request::createFromEnvironmentBuilder(
-            $env->getSlimEnvironment(),
-            $env
-        );
+        $request = Request::createFromEnvironmentBuilder($env);
         $this->assertEquals($request->getParsedBody(), self::ENTITY_BODY_DATA);
     }
 
@@ -152,10 +137,7 @@ class RequestTest extends TestCase
             ->setRequestMethod('POST')
             ->setUri('https://my.server.com/level1/level2')
             ->setRequestBody(UrlEncoded::create(self::ENTITY_BODY_DATA));
-        $request = Request::createFromEnvironmentBuilder(
-            $env->getSlimEnvironment(),
-            $env
-        );
+        $request = Request::createFromEnvironmentBuilder($env);
         $this->assertEquals($request->getParsedBody(), self::ENTITY_BODY_DATA);
     }
 
@@ -165,10 +147,7 @@ class RequestTest extends TestCase
             ->setRequestMethod('POST')
             ->setUri('https://my.server.com/level1/level2')
             ->setRequestBody(Multipart::create(self::ENTITY_BODY_DATA));
-        $request = Request::createFromEnvironmentBuilder(
-            $env->getSlimEnvironment(),
-            $env
-        );
+        $request = Request::createFromEnvironmentBuilder($env);
         $this->assertEquals($request->getParsedBody(), self::ENTITY_BODY_DATA);
     }
 
@@ -186,10 +165,7 @@ class RequestTest extends TestCase
             ->setRequestMethod('POST')
             ->setUri('https://my.server.com/level1/level2')
             ->setRequestBody($body);
-        $request = Request::createFromEnvironmentBuilder(
-            $env->getSlimEnvironment(),
-            $env
-        );
+        $request = Request::createFromEnvironmentBuilder($env);
         $this->assertEquals($request->getParsedBody(), self::ENTITY_BODY_DATA);
         
         $this->assertEquals(

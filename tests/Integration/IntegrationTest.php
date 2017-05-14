@@ -237,7 +237,6 @@ class IntegrationTest extends TestCase
         // And do the same for the container's `request` object
         $container['request'] = function ($c) {
             return Request::createFromEnvironmentBuilder(
-                $c->get('environment'),
                 $c->get('environmentBuilder')
             );
         };
