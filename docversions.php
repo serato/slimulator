@@ -8,8 +8,8 @@ const IGNORE_VERSIONS = ['master', 'develop'];
 $key                = getenv('ARTIFACTS_KEY');
 $secret             = getenv('ARTIFACTS_SECRET');
 $docsBucket         = getenv('ARTIFACTS_BUCKET');
-$projectName        = getenv('TRAVIS_REPO_SLUG');
-$objectPrefix       = 'serato/' . $projectName;
+$objectPrefix       = getenv('TRAVIS_REPO_SLUG');
+$projectName        = str_replace('serato/', '', $objectPrefix);
 
 $versions = [];
 
