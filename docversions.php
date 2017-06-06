@@ -5,15 +5,10 @@ use Aws\S3\S3Client;
 
 const IGNORE_VERSIONS = ['master', 'develop'];
 
-if (!isset($argv[1]) || $argv[1] === '' || $argv[1] === null) {
-    echo "Usage: " . $argv[0] . " <project directory>\n";
-    exit;
-}
-
 $key                = getenv('ARTIFACTS_KEY');
 $secret             = getenv('ARTIFACTS_SECRET');
 $docsBucket         = getenv('ARTIFACTS_BUCKET');
-$projectName        = $argv[1];
+$projectName        = getenv('TRAVIS_REPO_SLUG');
 $objectPrefix       = 'serato/' . $projectName;
 
 $versions = [];

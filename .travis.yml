@@ -40,4 +40,4 @@ notifications:
   on_success: change
   on_failure: always
 after_script:
-- "php ./docversions.php $TRAVIS_REPO_SLUG"
+- "php ./docversions.php"
