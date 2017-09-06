@@ -53,6 +53,13 @@ class EnvironmentBuilder
     private $serverPort;
 
     /**
+     * Remote IP address
+     *
+     * @var string
+     */
+    private $remoteIpAddress;
+
+    /**
      * Request URI
      *
      * @var string
@@ -164,6 +171,17 @@ class EnvironmentBuilder
     public function setServerProtocol(string $serverProtocol): self
     {
         $this->serverProtocol = $serverProtocol;
+        return $this;
+    }
+
+    /**
+     * Sets the remote IP address of the request.
+     *
+     * @returns self
+     */
+    public function setRemoteIpAddress(string $ipAddress): self
+    {
+        $this->remoteIpAddress = $ipAddress;
         return $this;
     }
 
@@ -408,7 +426,8 @@ class EnvironmentBuilder
             'REQUEST_URI'           => $this->requestUri . ($getVars == '' ? '' : '?' . $getVars),
             'QUERY_STRING'          => $getVars,
             'REQUEST_TIME_FLOAT'    => microtime(true),
-            'REQUEST_TIME'          => time()
+            'REQUEST_TIME'          => time(),
+            'REMOTE_ADDR'           => $this->remoteIpAddress
         ];
 
         if ($this->authorization) {
