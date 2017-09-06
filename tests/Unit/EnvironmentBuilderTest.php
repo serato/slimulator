@@ -39,6 +39,17 @@ class EnvironmentBuilderTest extends TestCase
         $this->assertEquals($env['SERVER_PROTOCOL'], 'HTTP/1.1');
     }
 
+    public function testSetRemoteIpAddress()
+    {
+        $builder = EnvironmentBuilder::create();
+
+        $env = $builder->getEnv();
+        $this->assertEquals($env['REMOTE_ADDR'], null);
+
+        $env = $builder->setRemoteIpAddress('1.1.1.1')->getEnv();
+        $this->assertEquals($env['REMOTE_ADDR'], '1.1.1.1');
+    }
+
     /**
      * @dataProvider setUriProvider
      */
