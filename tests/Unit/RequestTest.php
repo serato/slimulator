@@ -105,22 +105,6 @@ class RequestTest extends TestCase
         );
     }
 
-    /**
-     * Note: Slim 3.8.* added a Slim\Exception\InvalidMethodException
-     * exception class which extends InvalidArgumentException. But use
-     * InvalidArgumentException to maintain compatibility with older Slim
-     * versions.
-     *
-     * @expectedException \InvalidArgumentException
-     */
-    public function testInvalidHTTPMethod()
-    {
-        $env = EnvironmentBuilder::create()
-            ->setRequestMethod('NOT_A_REAL_HTTP_METHOD')
-            ->setUri('https://my.server.com/level1/level2');
-        $request = Request::createFromEnvironmentBuilder($env);
-    }
-
     public function testRequestJsonEntityBody()
     {
         $env = EnvironmentBuilder::create()
