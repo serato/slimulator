@@ -60,6 +60,13 @@ class EnvironmentBuilder
     private $remoteIpAddress;
 
     /**
+     * Forwarded IP address
+     *
+     * @var string
+     */
+    private $xForwardedFor;
+
+    /**
      * Request URI
      *
      * @var string
@@ -182,6 +189,17 @@ class EnvironmentBuilder
     public function setRemoteIpAddress(string $ipAddress): self
     {
         $this->remoteIpAddress = $ipAddress;
+        return $this;
+    }
+
+    /**
+     * Sets the forwarded IP address of the request.
+     *
+     * @returns self
+     */
+    public function setXForwardedForIpAddress(string $ipAddress): self
+    {
+        $this->xForwardedFor = $ipAddress;
         return $this;
     }
 
@@ -427,7 +445,8 @@ class EnvironmentBuilder
             'QUERY_STRING'          => $getVars,
             'REQUEST_TIME_FLOAT'    => microtime(true),
             'REQUEST_TIME'          => time(),
-            'REMOTE_ADDR'           => $this->remoteIpAddress
+            'REMOTE_ADDR'           => $this->remoteIpAddress,
+            'HTTP_X_FORWARDED_FOR'  => $this->xForwardedFor
         ];
 
         if ($this->authorization) {

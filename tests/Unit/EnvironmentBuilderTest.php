@@ -50,6 +50,17 @@ class EnvironmentBuilderTest extends TestCase
         $this->assertEquals($env['REMOTE_ADDR'], '1.1.1.1');
     }
 
+    public function testSetXForwardedForIpAddress()
+    {
+        $builder = EnvironmentBuilder::create();
+
+        $env = $builder->getEnv();
+        $this->assertEquals($env['HTTP_X_FORWARDED_FOR'], null);
+
+        $env = $builder->setXForwardedForIpAddress('1.1.1.1')->getEnv();
+        $this->assertEquals($env['HTTP_X_FORWARDED_FOR'], '1.1.1.1');
+    }
+
     /**
      * @dataProvider setUriProvider
      */
