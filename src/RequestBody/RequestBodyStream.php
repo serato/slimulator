@@ -2,6 +2,7 @@
 namespace Serato\Slimulator\RequestBody;
 
 use Slim\Http\Body;
+use Exception;
 
 /**
  * Provides a PSR-7 implementation of a reusable raw request body
@@ -17,6 +18,9 @@ class RequestBodyStream extends Body
     public function __construct()
     {
         $stream = fopen('php://temp', 'w+');
+        if ($stream === false) {
+            throw new Exception('Unable to open temp file stream');
+        }
         parent::__construct($stream);
     }
 }

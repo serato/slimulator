@@ -4,6 +4,7 @@ namespace Serato\Slimulator;
 use Serato\Slimulator\EnvironmentBuilder;
 use Serato\Slimulator\UploadedFile;
 use Serato\Slimulator\RequestBody\RequestBodyStream;
+use Serato\Slimulator\RequestBody\RequestBodyWithParamsAbstract;
 use Slim\Http\Request as SlimRequest;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
@@ -38,7 +39,8 @@ class Request extends SlimRequest
         $method         = $environment['REQUEST_METHOD'];
         $uri            = Uri::createFromEnvironment($environment);
         $headers        = Headers::createFromEnvironment($environment);
-        $cookies        = Cookies::parseHeader($headers->get('Cookie', []));
+        $cookieData     = $headers->get('Cookie', []);
+        $cookies        = Cookies::parseHeader(isset($cookieData[0]) ? $cookieData[0] : '');
         $serverParams   = $environment->all();
         
         // Use the stream from the $environmentBuilder
@@ -60,14 +62,12 @@ class Request extends SlimRequest
         if ($method === 'POST' &&
             in_array($request->getMediaType(), ['application/x-www-form-urlencoded', 'multipart/form-data'])
         ) {
-            if (is_a(
-                $environmentBuilder->getRequestBody(),
-                'Serato\Slimulator\RequestBody\RequestBodyWithParamsAbstract'
-            )) {
+            $requestBody = $environmentBuilder->getRequestBody();
+            if ($requestBody instanceof RequestBodyWithParamsAbstract) {
                 // FYI: Slim request class passes $_POST global
                 // to $request->withParsedBody()
                 $request = $request->withParsedBody(
-                    $environmentBuilder->getRequestBody()->getParams()
+                    $requestBody->getParams()
                 );
             }
         }

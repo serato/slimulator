@@ -5,6 +5,7 @@ use Serato\Slimulator\Request;
 use Slim\Http\Environment;
 use Serato\Slimulator\Authorization\HttpAuthorizationInterface;
 use Serato\Slimulator\RequestBody\RequestBodyInterface;
+use Exception;
 
 /**
  * Provides an abstracted, fluent interface for creating a PHP request environment.
@@ -220,7 +221,12 @@ class EnvironmentBuilder
     public function setUri(string $uri): self
     {
         $this->setUriDefaults();
-        foreach (parse_url($uri) as $k => $v) {
+        $parsedUri = parse_url($uri);
+        if ($parsedUri === false) {
+            throw new Exception('Invalid URI `' . $uri . '`');
+        }
+        foreach ($parsedUri as $k => $v) {
+            $v = (string)$v;
             switch ($k) {
                 case 'scheme':
                     if (strtolower($v) == 'https') {
@@ -388,7 +394,7 @@ class EnvironmentBuilder
      */
     public function removeAuthorization(): self
     {
-        $this->authorization = null;
+        unset($this->authorization);
         return $this;
     }
 
@@ -422,7 +428,7 @@ class EnvironmentBuilder
      */
     public function removeRequestBody(): self
     {
-        $this->requestBody = null;
+        unset($this->requestBody);
         return $this;
     }
 
@@ -449,7 +455,7 @@ class EnvironmentBuilder
             'HTTP_X_FORWARDED_FOR'  => $this->xForwardedFor
         ];
 
-        if ($this->authorization) {
+        if ($this->authorization !== null) {
             $vars = array_merge(
                 $vars,
                 ['HTTP_AUTHORIZATION' => $this->authorization->getHeaderValue()],

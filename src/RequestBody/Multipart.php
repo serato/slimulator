@@ -52,8 +52,8 @@ class Multipart extends RequestBodyWithParamsAbstract
      * @link http://php.net/manual/en/reserved.variables.files.php
      *
      * @param string    $name           Request parameter name
-     * @param mixed     $filePath       Path to file
-     * @param int       uploadStatus    Status of the file upload process
+     * @param string    $filePath       Path to file
+     * @param int       $uploadStatus    Status of the file upload process
      *
      * @return self
      */
@@ -140,7 +140,7 @@ class Multipart extends RequestBodyWithParamsAbstract
                 strlen(self::BOUNDARY) + 40 + strlen($name)+ strlen($value)
             ) * 8;
         }
-        return $length;
+        return (int)$length;
     }
 
     /**
