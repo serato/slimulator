@@ -21,17 +21,21 @@ class UploadedFileTest extends TestCase
 
         $files = UploadedFile::createFromEnvironmentBuilder($env);
 
-        $this->assertEquals(2, count(array_keys($files)));
+        $this->assertTrue(is_array($files));
 
-        $this->assertEquals(
-            (string)$files['file1']->getStream(),
-            $this->getTestFileContents(1)
-        );
+        if (is_array($files)) {
+            $this->assertEquals(2, count(array_keys($files)));
 
-        $this->assertEquals(
-            (string)$files['file2']->getStream(),
-            $this->getTestFileContents(2)
-        );
+            $this->assertEquals(
+                (string)$files['file1']->getStream(),
+                $this->getTestFileContents(1)
+            );
+
+            $this->assertEquals(
+                (string)$files['file2']->getStream(),
+                $this->getTestFileContents(2)
+            );
+        }
     }
 
     private function getTestFilePath(int $num = 1)

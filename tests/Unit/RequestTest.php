@@ -27,7 +27,7 @@ class RequestTest extends TestCase
      * @param array     $envCustomHeaderValues      Array of values for custom header provided to EnvironmentBuilder
      * @param string    $requestUriPath             URI path as parsed by Request object
      * @param array     $requestGetParams           GET params are parsed by Request object
-     * @param strin     $requestCustomHeaderValue   Custom header value parsed by Request object
+     * @param string    $requestCustomHeaderValue   Custom header value parsed by Request object
      *
      * @dataProvider simpleRequestsProvider
      */

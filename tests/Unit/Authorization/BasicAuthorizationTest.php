@@ -43,8 +43,12 @@ class BasicAuthorizationTest extends TestCase
         $this->assertTrue(base64_decode($header[1]) !== false);
 
         $data = base64_decode($header[1]);
-        $this->assertEquals(strpos($data, $user_name), 0);
-        $this->assertTrue(strpos($data, $user_pass) > 0);
+        
+        $this->assertTrue(is_string($data));
+        if (is_string($data)) {
+            $this->assertEquals(strpos($data, $user_name), 0);
+            $this->assertTrue(strpos($data, $user_pass) > 0);
+        }
     }
 
     public function testGetPhpEnvVars()

@@ -1,5 +1,5 @@
 <?php
-namespace Serato\Slimulator\Test\Unit;
+namespace Serato\Slimulator\Test\Integration;
 
 use PHPUnit\Framework\TestCase;
 use Slim\App as SlimApp;

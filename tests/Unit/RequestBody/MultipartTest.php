@@ -29,38 +29,17 @@ class MultipartTest extends TestCase
         
         $fileInfo = $body->getFiles();
 
-        $this->assertEquals(2, count(array_keys($body->getFiles())));
-        
-        $this->assertTrue(is_array($fileInfo['file1']));
-        $this->assertEquals($fileInfo['file1']['tmp_name'], $this->getTestFile(1));
+        $this->assertTrue(is_array($body->getFiles()));
 
-        $this->assertTrue(is_array($fileInfo['file2']));
-        $this->assertEquals($fileInfo['file2']['tmp_name'], $this->getTestFile(2));
-    }
+        if (is_array($fileInfo)) {
+            $this->assertEquals(2, count(array_keys($fileInfo)));
+            
+            $this->assertTrue(is_array($fileInfo['file1']));
+            $this->assertEquals($fileInfo['file1']['tmp_name'], $this->getTestFile(1));
 
-    /**
-     * @expectedException Exception
-     */
-    public function addFileNotExist()
-    {
-        $body = Multipart::create();
-        $body->addFile('file1', $this->getTestFile() . '.fake');
-    }
-
-    public function removeFile()
-    {
-        $body = Multipart::create();
-        $body->addFile('file1', $this->getTestFile());
-
-        $this->assertTrue(is_array($body->getFile('file1')));
-
-        $this->removeFile('doesnt_exist');
-
-        $this->assertTrue(is_array($body->getFile('file1')));
-        
-        $this->removeFile('file1');
-
-        $this->assertEquals(null, $body->getFile('file1'));
+            $this->assertTrue(is_array($fileInfo['file2']));
+            $this->assertEquals($fileInfo['file2']['tmp_name'], $this->getTestFile(2));
+        }
     }
 
     private function getTestFile(int $num = 1)
