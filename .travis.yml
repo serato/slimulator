@@ -25,16 +25,17 @@ install:
 - composer install
 - composer require slim/slim:${SLIM_VERSION}
 script:
+- "./vendor/bin/phpstan analyse src tests --level 7"
 - php vendor/bin/phpunit
 - "./vendor/bin/phpcs"
 after_success:
-- php sami.phar update phpdoc.php
+- "./vendor/bin/apigen generate src --destination docs"
 addons:
   artifacts:
     s3_region: us-east-1
     target_paths: "$TRAVIS_REPO_SLUG/$TRAVIS_BRANCH"
     paths:
-    - "./docs/php"
+    - "./docs"
 notifications:
   slack:
     rooms:
