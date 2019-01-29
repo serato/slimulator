@@ -120,7 +120,7 @@ class EnvironmentBuilder
     /**
      * The body of the request
      *
-     * @var RequestBodyInterface;
+     * @var RequestBodyInterface
      */
     private $requestBody;
 
