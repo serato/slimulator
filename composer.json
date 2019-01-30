@@ -4,7 +4,7 @@
 	"description": "A mock request tool for web applications using the Slim PHP web framework",
 	"type": "library",
 	"require": {
-		"php" : "^7.0",
+		"php" : "^7.1",
 		"slim/slim": "^3.5.0"
 	},
 	"require-dev": {
