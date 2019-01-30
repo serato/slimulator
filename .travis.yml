@@ -29,7 +29,7 @@ script:
 - php vendor/bin/phpunit
 - "./vendor/bin/phpcs"
 after_success:
-- "./vendor/bin/apigen generate src --destination docs"
+- "php -d memory_limit=1000m ./vendor/bin/apigen generate src --destination docs"
 addons:
   artifacts:
     s3_region: us-east-1

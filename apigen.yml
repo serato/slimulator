@@ -1,0 +1,6 @@
+parameters:
+    visibility_levels: [public, protected]
+    annotation_groups: [todo, deprecated]
+    title: "Slimulator"
+    base_url: http://docs.serato.net/serato/slimulator/master/
+    overwrite: true
