@@ -7,8 +7,8 @@ A library to aid with the testing of web applications that use
 
 ## Requirements
 
-* PHP 7.0 or above
-* Tested against Slim >= 3.5.x.
+* PHP 7.1 or above
+* Tested against Slim >= 3.8.x.
 * Not currently tested against Slim >= 4.x.x
 
 ## Installation
