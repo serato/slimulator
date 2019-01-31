@@ -24,7 +24,7 @@ install:
 - composer install
 - composer require slim/slim:${SLIM_VERSION}
 script:
-- "./vendor/bin/phpstan analyse src tests --level 7"
+- "./vendor/bin/phpstan analyse"
 - php vendor/bin/phpunit
 - "./vendor/bin/phpcs"
 after_success:
