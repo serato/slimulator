@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Serato\Slimulator\Test\Unit\Authorization;
 
 use PHPUnit\Framework\TestCase;

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Serato\Slimulator\Test\Unit;
 
 use PHPUnit\Framework\TestCase;

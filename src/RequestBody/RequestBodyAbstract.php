@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Serato\Slimulator\RequestBody;
 
 use Serato\Slimulator\RequestBody\RequestBodyInterface;

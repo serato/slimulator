@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Serato\Slimulator\RequestBody;
 
 use Exception;
@@ -137,7 +139,7 @@ class Multipart extends RequestBodyWithParamsAbstract
         }
         foreach ($this->getParams() as $name => $value) {
             $length += (
-                strlen(self::BOUNDARY) + 40 + strlen($name)+ strlen($value)
+                strlen(self::BOUNDARY) + 40 + strlen((string)$name)+ strlen((string)$value)
             ) * 8;
         }
         return (int)$length;
