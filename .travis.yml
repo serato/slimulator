@@ -27,6 +27,7 @@ script:
 - "./vendor/bin/phpstan analyse"
 - php vendor/bin/phpunit
 - "./vendor/bin/phpcs"
+- "./vendor/bin/security-checker security:check"
 after_success:
 - "php -d memory_limit=1000m ./vendor/bin/apigen generate src --destination docs"
 addons:
