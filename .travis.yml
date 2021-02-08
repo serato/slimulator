@@ -21,8 +21,7 @@ branches:
 before_install:
 - phpenv config-rm xdebug.ini
 install:
-- composer install
-- composer require slim/slim:${SLIM_VERSION}
+- composer require slim/slim:${SLIM_VERSION} # This will also install dependencies
 script:
 - "./vendor/bin/phpstan analyse"
 - php vendor/bin/phpunit
