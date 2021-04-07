@@ -4,7 +4,7 @@
 	"description": "A mock request tool for web applications using the Slim PHP web framework",
 	"type": "library",
 	"require": {
-		"php" : "^7.1",
+		"php": "^7.1",
 		"slim/slim": "^3.5.0"
 	},
 	"require-dev": {
@@ -13,8 +13,9 @@
 		"aws/aws-sdk-php": "^3.0",
 		"phpstan/phpstan": "^0.11.0",
 		"phpstan/phpstan-phpunit": "^0.11.0",
-		"apigen/apigen": "dev-master#85290e8",
-		"roave/better-reflection": "dev-master#ce9d784"
+		"apigen/apigen": "dev-master",
+		"roave/better-reflection": "3.3.0 as dev-master",
+		"enlightn/security-checker": "^1.4"
 	},
 	"autoload": {
 		"psr-4": {
