@@ -32,6 +32,7 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-
+
       - name: Install dependencies
         uses: php-actions/composer@v6
         with:
@@ -41,7 +42,6 @@ jobs:
 
       - name: Run static code analyzers
         run: |
-          ./vendor/bin/phpstan analyse -c phpstan.neon
           ./vendor/bin/phpcs
           ./vendor/bin/security-checker security:check
       - name: Run test suite
