@@ -1,7 +1,7 @@
 # This workflow is triggered every time a PR is opened, reopened, or the head branch of the pull request is updated.
 # Also is triggered when there is a push to master or a release branch. # It is also possible to trigger it manually.
 # ./vendor/bin/phpstan analyse is left out from Run Static Code Analyzers due to 95 errors
-name: Automated tests and static code analyzers
+name: Code checking and unit tests
 on:
   pull_request:
     types: [opened, synchronize, reopened]
