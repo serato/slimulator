@@ -23,9 +23,9 @@ class UploadedFile extends SlimUploadedFile
      *
      * @param EnvironmentBuilder $environmentBuilder The environment builder
      *
-     * @return array|null A normalized tree of UploadedFile instances or null if none are provided.
+     * @return array A normalized tree of UploadedFile instances or empty array if none are provided.
      */
-    public static function createFromEnvironmentBuilder(EnvironmentBuilder $environmentBuilder)
+    public static function createFromEnvironmentBuilder(EnvironmentBuilder $environmentBuilder): array
     {
         $files = [];
 

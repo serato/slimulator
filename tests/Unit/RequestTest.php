@@ -42,7 +42,7 @@ class RequestTest extends TestCase
         string $requestUriPath,
         array $requestGetParams,
         string $requestCustomHeaderValue
-    ) {
+    ): void {
         $env = EnvironmentBuilder::create()
             ->setRequestMethod($envRequestMethod)
             ->setUri($envRequestUri)
@@ -70,7 +70,7 @@ class RequestTest extends TestCase
         }
     }
 
-    public function testRequestWithBasicAuth()
+    public function testRequestWithBasicAuth(): void
     {
         $user = 'my_user';
         $pass = 'passs';
@@ -92,7 +92,7 @@ class RequestTest extends TestCase
         );
     }
 
-    public function testRequestWithBearerToken()
+    public function testRequestWithBearerToken(): void
     {
         $env = EnvironmentBuilder::create()
             ->setUri('https://my.server.com/level1/level2')
@@ -107,7 +107,7 @@ class RequestTest extends TestCase
         );
     }
 
-    public function testRequestJsonEntityBody()
+    public function testRequestJsonEntityBody(): void
     {
         $env = EnvironmentBuilder::create()
             ->setRequestMethod('POST')
@@ -117,7 +117,7 @@ class RequestTest extends TestCase
         $this->assertEquals($request->getParsedBody(), self::ENTITY_BODY_DATA);
     }
 
-    public function testRequestUrlEncodedEntityBody()
+    public function testRequestUrlEncodedEntityBody(): void
     {
         $env = EnvironmentBuilder::create()
             ->setRequestMethod('POST')
@@ -127,7 +127,7 @@ class RequestTest extends TestCase
         $this->assertEquals($request->getParsedBody(), self::ENTITY_BODY_DATA);
     }
 
-    public function testRequestMultipartEntityBody()
+    public function testRequestMultipartEntityBody(): void
     {
         $env = EnvironmentBuilder::create()
             ->setRequestMethod('POST')
@@ -137,7 +137,7 @@ class RequestTest extends TestCase
         $this->assertEquals($request->getParsedBody(), self::ENTITY_BODY_DATA);
     }
 
-    public function testRequestMultipartEntityBodyWithFiles()
+    public function testRequestMultipartEntityBodyWithFiles(): void
     {
         $filepath1 = __DIR__ . '/../resources/upload1.txt';
         $filepath2 = __DIR__ . '/../resources/upload2.txt';
@@ -165,7 +165,7 @@ class RequestTest extends TestCase
         );
     }
 
-    public function simpleRequestsProvider()
+    public function simpleRequestsProvider(): array
     {
         return [
             [

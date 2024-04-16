@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  php-build:
+    image: "serato/php:cli-8.3"
+    command: ["sh", "/srv/php-lib/.docker/setup.sh", "${AWS_ACCESS_KEY_ID}", "${AWS_SECRET_ACCESS_KEY}"]
+    stdin_open: true
+    volumes:
+      - ./:/srv/php-lib

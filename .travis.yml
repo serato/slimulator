@@ -1,17 +1,12 @@
 language: php
 php:
-- 7.1
-- 7.2
+- 8.3
 cache:
   directories:
   - "$HOME/.composer/cache"
 env:
   matrix:
-  - SLIM_VERSION="3.12.*"
-  - SLIM_VERSION="3.11.*"
-  - SLIM_VERSION="3.10.*"
-  - SLIM_VERSION="3.9.*"
-  - SLIM_VERSION="3.8.*"
+  - SLIM_VERSION="4.13.*"
   global:
     secure: SPEJYkIdZeNIsp/13IrAmPUHcKRbWb6sl3H7hIcKjV3oIdnu5u5i0xo7eONmslvS+DWTMwhvpCJaALca6Eec6UEQVjLdG3AnfJvVFZgn7pHSEoSUAv2A3TzxWzRVezrAxOvzt6TnP4aMJENnDDnx3PykFfGt6kAHF+JbHpkLx6zZ24qgF32dD2XJREudbemFdLNVjDlrEEFqEOpTF8mxwy2Eq779bkbtXR6OCWtsH7xAh9CArPZWP8KnS9lHFI3D0iRWZKfEsgdxGaQtreSRcX9rRYwuSHUccHgGkib4lZqCutuECE2+Moa8u1o5a1DuXrKBw/OECGh4M4oIgvNlwNMp80cHd0HiuH5fcHlpodfYLzq21PHgvl2iamiGuS54bzZrNM8+ep2hxZOQEcWjT27G//WHgyvZ7pUCEq8AfElDlGDaz7MpkRVf6Tp755AB7FnA6RnBybyw+8fQNYxdiKmoSIJIGHXJfcubiYWe2IeeIz++RuJ5CWLxWsTly4m7d18uQvEtcj++UuMCBkbDCjjXwzOVQCyDk6bseatgPZ6xB3IgEeM64Y/e1jH/XezWCd5hjQDILecqffJYAibkfzQjtKcON/aKSYrbo2w+Wb0Mvu3NQuJL+0REq7oVNOcAoSd2ApADD6pUOcB8WxVZPfx5gG19Kl6MdfpKH+UCAls=
 branches:

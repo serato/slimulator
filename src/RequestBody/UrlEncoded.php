@@ -8,7 +8,7 @@ use Serato\Slimulator\RequestBody\RequestBodyWithParamsAbstract;
 /**
  * Creates a request body of URL encoded name/value pairs.
  */
-class UrlEncoded extends RequestBodyWithParamsAbstract
+final class UrlEncoded extends RequestBodyWithParamsAbstract
 {
     /**
      * Create a new UrlEncoded
