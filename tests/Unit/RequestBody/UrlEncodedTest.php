@@ -11,7 +11,7 @@ use Serato\Slimulator\RequestBody\UrlEncoded;
  */
 class UrlEncodedTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $data = ['var1' => 'val1', 'var2' => 'val2'];
 
@@ -26,7 +26,7 @@ class UrlEncodedTest extends TestCase
         $this->assertEquals($body1, $body2);
     }
 
-    public function testAddRemoveParams()
+    public function testAddRemoveParams(): void
     {
         $body = UrlEncoded::create();
 
@@ -59,7 +59,7 @@ class UrlEncodedTest extends TestCase
         $this->assertEquals(['var2' => 'val2'], $body->getParams());
     }
 
-    public function testGetRequestBodyStream()
+    public function testGetRequestBodyStream(): void
     {
         $body = new UrlEncoded(['var1' => 'val1', 'var2' => 'val2']);
         $this->assertEquals(

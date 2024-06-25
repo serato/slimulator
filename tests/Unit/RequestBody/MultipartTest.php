@@ -11,7 +11,7 @@ use Serato\Slimulator\RequestBody\Multipart;
  */
 class MultipartTest extends TestCase
 {
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $params = ['var1' => 'val1'];
         $body = Multipart::create(
@@ -22,7 +22,7 @@ class MultipartTest extends TestCase
         $this->assertTrue(is_array($body->getFiles()));
     }
 
-    public function testAddGetFiles()
+    public function testAddGetFiles(): void
     {
         $body = Multipart::create();
         
@@ -44,7 +44,7 @@ class MultipartTest extends TestCase
         }
     }
 
-    private function getTestFile(int $num = 1)
+    private function getTestFile(int $num = 1): string
     {
         return __DIR__ . '/../../resources/upload' . $num . '.txt';
     }

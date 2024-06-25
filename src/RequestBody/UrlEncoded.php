@@ -8,18 +8,18 @@ use Serato\Slimulator\RequestBody\RequestBodyWithParamsAbstract;
 /**
  * Creates a request body of URL encoded name/value pairs.
  */
-class UrlEncoded extends RequestBodyWithParamsAbstract
+final class UrlEncoded extends RequestBodyWithParamsAbstract
 {
     /**
      * Create a new UrlEncoded
      *
-     * @param array $params Request params
+     * @param Array<string, mixed> $params Request params
      *
-     * @return static
+     * @return UrlEncoded
      */
     public static function create(array $params = []): self
     {
-        return new static($params);
+        return new UrlEncoded($params);
     }
 
     /**

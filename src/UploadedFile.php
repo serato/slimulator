@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Serato\Slimulator;
 
-use Serato\Slimulator\EnvironmentBuilder;
 use Slim\Http\UploadedFile as SlimUploadedFile;
 
 /**
@@ -16,16 +15,16 @@ use Slim\Http\UploadedFile as SlimUploadedFile;
  *
  * @link https://github.com/slimphp/Slim
  */
-class UploadedFile extends SlimUploadedFile
+final class UploadedFile extends SlimUploadedFile
 {
     /**
      * Create a normalized tree of UploadedFile instances from the EnvironmentBuilder.
      *
      * @param EnvironmentBuilder $environmentBuilder The environment builder
      *
-     * @return array|null A normalized tree of UploadedFile instances or null if none are provided.
+     * @return Array<string, mixed>|null A normalized tree of UploadedFile instances or null if none are provided.
      */
-    public static function createFromEnvironmentBuilder(EnvironmentBuilder $environmentBuilder)
+    public static function createFromEnvironmentBuilder(EnvironmentBuilder $environmentBuilder): ?array
     {
         $files = [];
 

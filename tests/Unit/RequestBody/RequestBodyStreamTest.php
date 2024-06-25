@@ -11,7 +11,7 @@ use Serato\Slimulator\RequestBody\RequestBodyStream;
  */
 class RequestBodyStreamTest extends TestCase
 {
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $bodyStream = new RequestBodyStream;
 

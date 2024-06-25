@@ -3,12 +3,9 @@ declare(strict_types=1);
 
 namespace Serato\Slimulator;
 
-use Serato\Slimulator\EnvironmentBuilder;
-use Serato\Slimulator\UploadedFile;
 use Serato\Slimulator\RequestBody\RequestBodyStream;
 use Serato\Slimulator\RequestBody\RequestBodyWithParamsAbstract;
 use Slim\Http\Request as SlimRequest;
-use Slim\Http\Environment;
 use Slim\Http\Uri;
 use Slim\Http\Headers;
 use Slim\Http\Cookies;
@@ -25,7 +22,7 @@ use Slim\Http\Cookies;
  *
  * @link https://github.com/slimphp/Slim
  */
-class Request extends SlimRequest
+final class Request extends SlimRequest
 {
     /**
      * Create new HTTP request with data extracted from the EnvironmentBuilder object

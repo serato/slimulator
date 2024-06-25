@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  php-build:
+    image: "php:${PHP_VERSION:-8.2}-cli"
+    command: ["sh", "/srv/php-lib/.docker/setup.sh"]
+    stdin_open: true
+    volumes:
+      - ./:/srv/php-lib

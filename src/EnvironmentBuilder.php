@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Serato\Slimulator;
 
-use Serato\Slimulator\Request;
 use Slim\Http\Environment;
 use Serato\Slimulator\Authorization\HttpAuthorizationInterface;
 use Serato\Slimulator\RequestBody\RequestBodyInterface;
@@ -79,7 +78,7 @@ class EnvironmentBuilder
     /**
      * HTTP headers
      *
-     * @var array
+     * @var Array<string, mixed>
      */
     private $headers = [];
 
@@ -101,14 +100,14 @@ class EnvironmentBuilder
     /**
      * GET parameters
      *
-     * @var array
+     *  @var Array<mixed, mixed>
      */
     private $getParams = [];
 
     /**
      * Cookies
      *
-     * @var array
+     * @var Array<mixed, mixed>
      */
     private $cookies = [];
 
@@ -271,14 +270,14 @@ class EnvironmentBuilder
      * Adds multiple GET parameters.
      * eg. `['param1' => 'val1', 'param2' => 'val2']`.
      *
-     * @param array $params     Name/value array of parameters
+     * @param Array<mixed, mixed> $params     Name/value array of parameters
      *
      * @return self
      */
     public function addGetParams(array $params): self
     {
         foreach ($params as $k => $v) {
-            $this->addGetParam($k, $v);
+            $this->addGetParam((string)$k, $v);
         }
         return $this;
     }
@@ -327,8 +326,8 @@ class EnvironmentBuilder
      *
      * If `$value` is not provided entire header named `$name` is removed.
      *
-     * @param string $name      Header name
-     * @param string $value     Header value
+     * @param string $name Header name
+     * @param string|null $value Header value
      *
      * @return self
      */
@@ -418,7 +417,7 @@ class EnvironmentBuilder
      *
      * @return RequestBodyInterface|null
      */
-    public function getRequestBody()
+    public function getRequestBody(): ?RequestBodyInterface
     {
         return $this->requestBody;
     }
@@ -437,7 +436,7 @@ class EnvironmentBuilder
     /**
      * Returns the entire environment as an array.
      *
-     * @return array
+     * @return Array<string, mixed>
      */
     public function getEnv(): array
     {
