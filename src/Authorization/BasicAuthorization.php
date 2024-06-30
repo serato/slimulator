@@ -2,9 +2,6 @@
 declare(strict_types=1);
 namespace Serato\Slimulator\Authorization;
 
-use phpDocumentor\Reflection\DocBlock\Tags\Author;
-use phpDocumentor\Reflection\Types\Array_;
-
 /**
  * Creates PHP environment variables for a request using HTTP `Basic` authorization.
  */
