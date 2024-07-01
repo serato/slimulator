@@ -7,3 +7,4 @@ services:
     stdin_open: true
     volumes:
       - ./:/srv/php-lib
+      - ${HOME}/.aws/credentials:/root/.aws/credentials

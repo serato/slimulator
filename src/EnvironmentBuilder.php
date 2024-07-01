@@ -100,7 +100,7 @@ class EnvironmentBuilder
     /**
      * GET parameters
      *
-     *  @var Array<mixed, mixed>
+     * @var Array<mixed, mixed>
      */
     private $getParams = [];
 
