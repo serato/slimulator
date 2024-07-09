@@ -2,12 +2,10 @@
 declare(strict_types=1);
 namespace Serato\Slimulator\Authorization;
 
-use Serato\Slimulator\Authorization\HttpAuthorizationInterface;
-
 /**
  * Creates PHP environment variables for a request using HTTP `Basic` authorization.
  */
-class BasicAuthorization implements HttpAuthorizationInterface
+final class BasicAuthorization implements HttpAuthorizationInterface
 {
 
     /**
@@ -106,7 +104,57 @@ class BasicAuthorization implements HttpAuthorizationInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return Array<string, string>
+     */
+    public function getHeaders(): array
+    {
+        return [
+            'Authorization' => $this->getHeaderValue()
+        ];
+    }
+
+    /**
+     * @return  Array<string, string>
+     */
+    public function getQueryParams(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return  Array<string, string>
+     */
+    public function getPostData(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return  Array<string, string>
+     */
+    public function getFiles(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return  Array<string, string>
+     */
+    public function getCookies(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return  Array<string, string>
+     */
+    public function getServer(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return  Array<string, string>
      */
     public function getPhpEnvVars(): array
     {

@@ -11,7 +11,6 @@ use Serato\Slimulator\Authorization\BearerToken;
 use Serato\Slimulator\RequestBody\Json;
 use Serato\Slimulator\RequestBody\Multipart;
 use Serato\Slimulator\RequestBody\UrlEncoded;
-use Serato\Slimulator\RequestBody\Xml;
 
 /**
  * Unit tests for Serato\Slimulator\Request
@@ -20,18 +19,21 @@ class RequestTest extends TestCase
 {
     const CUSTOM_HEADER_NAME = 'My-Custom-Header';
     const ENTITY_BODY_DATA = ['var1' => 'Value 1', 'var2' => 2, 'var3' => 'val_3'];
+
     /**
      *
-     * @param string    $envRequestMethod           Request method as provided to EnvironmentBuilder
-     * @param string    $envRequestUri              Full URI as provided to EnvironmentBuilder
-     * @param array     $envGetParams               GET params as provided to EnvironmentBuilder
-     * @param array     $envCookies                 Array of cookies provided to EnvironmentBuilder
-     * @param array     $envCustomHeaderValues      Array of values for custom header provided to EnvironmentBuilder
-     * @param string    $requestUriPath             URI path as parsed by Request object
-     * @param array     $requestGetParams           GET params are parsed by Request object
-     * @param string    $requestCustomHeaderValue   Custom header value parsed by Request object
+     * @param string $envRequestMethod Request method as provided to EnvironmentBuilder
+     * @param string $envRequestUri Full URI as provided to EnvironmentBuilder
+     * @param Array<string, mixed> $envGetParams GET params as provided to EnvironmentBuilder
+     * @param Array<string, mixed> $envCookies Array of cookies provided to EnvironmentBuilder
+     * @param Array<string, mixed> $envCustomHeaderValues Array of values for custom header provided
+     * to EnvironmentBuilder
+     * @param string $requestUriPath URI path as parsed by Request object
+     * @param Array<string, mixed> $requestGetParams GET params are parsed by Request object
+     * @param string $requestCustomHeaderValue Custom header value parsed by Request object
      *
      * @dataProvider simpleRequestsProvider
+     * @throws \Exception
      */
     public function testRequestsNoEntityBody(
         string $envRequestMethod,
@@ -42,7 +44,7 @@ class RequestTest extends TestCase
         string $requestUriPath,
         array $requestGetParams,
         string $requestCustomHeaderValue
-    ) {
+    ): void {
         $env = EnvironmentBuilder::create()
             ->setRequestMethod($envRequestMethod)
             ->setUri($envRequestUri)
@@ -70,7 +72,7 @@ class RequestTest extends TestCase
         }
     }
 
-    public function testRequestWithBasicAuth()
+    public function testRequestWithBasicAuth(): void
     {
         $user = 'my_user';
         $pass = 'passs';
@@ -92,7 +94,7 @@ class RequestTest extends TestCase
         );
     }
 
-    public function testRequestWithBearerToken()
+    public function testRequestWithBearerToken(): void
     {
         $env = EnvironmentBuilder::create()
             ->setUri('https://my.server.com/level1/level2')
@@ -107,7 +109,7 @@ class RequestTest extends TestCase
         );
     }
 
-    public function testRequestJsonEntityBody()
+    public function testRequestJsonEntityBody(): void
     {
         $env = EnvironmentBuilder::create()
             ->setRequestMethod('POST')
@@ -117,7 +119,7 @@ class RequestTest extends TestCase
         $this->assertEquals($request->getParsedBody(), self::ENTITY_BODY_DATA);
     }
 
-    public function testRequestUrlEncodedEntityBody()
+    public function testRequestUrlEncodedEntityBody(): void
     {
         $env = EnvironmentBuilder::create()
             ->setRequestMethod('POST')
@@ -127,7 +129,7 @@ class RequestTest extends TestCase
         $this->assertEquals($request->getParsedBody(), self::ENTITY_BODY_DATA);
     }
 
-    public function testRequestMultipartEntityBody()
+    public function testRequestMultipartEntityBody(): void
     {
         $env = EnvironmentBuilder::create()
             ->setRequestMethod('POST')
@@ -137,7 +139,7 @@ class RequestTest extends TestCase
         $this->assertEquals($request->getParsedBody(), self::ENTITY_BODY_DATA);
     }
 
-    public function testRequestMultipartEntityBodyWithFiles()
+    public function testRequestMultipartEntityBodyWithFiles(): void
     {
         $filepath1 = __DIR__ . '/../resources/upload1.txt';
         $filepath2 = __DIR__ . '/../resources/upload2.txt';
@@ -165,7 +167,10 @@ class RequestTest extends TestCase
         );
     }
 
-    public function simpleRequestsProvider()
+    /**
+     * @return Array<mixed>[]
+     */
+    public function simpleRequestsProvider(): array
     {
         return [
             [

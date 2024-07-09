@@ -12,14 +12,14 @@ use Serato\Slimulator\Authorization\BasicAuthorization;
  */
 class EnvironmentBuilderTest extends TestCase
 {
-    public function testDefaults()
+    public function testDefaults(): void
     {
         $env = EnvironmentBuilder::create()->getEnv();
         $this->assertTrue(is_array($env));
         $this->assertEquals($env['REQUEST_METHOD'], 'GET');
     }
 
-    public function testSetRequestMethod()
+    public function testSetRequestMethod(): void
     {
         $builder = EnvironmentBuilder::create();
         
@@ -30,7 +30,7 @@ class EnvironmentBuilderTest extends TestCase
         $this->assertEquals($env['REQUEST_METHOD'], 'PUT');
     }
 
-    public function testSetServerProtocol()
+    public function testSetServerProtocol(): void
     {
         $builder = EnvironmentBuilder::create();
 
@@ -41,7 +41,7 @@ class EnvironmentBuilderTest extends TestCase
         $this->assertEquals($env['SERVER_PROTOCOL'], 'HTTP/1.1');
     }
 
-    public function testSetRemoteIpAddress()
+    public function testSetRemoteIpAddress(): void
     {
         $builder = EnvironmentBuilder::create();
 
@@ -52,7 +52,7 @@ class EnvironmentBuilderTest extends TestCase
         $this->assertEquals($env['REMOTE_ADDR'], '1.1.1.1');
     }
 
-    public function testSetXForwardedForIpAddress()
+    public function testSetXForwardedForIpAddress(): void
     {
         $builder = EnvironmentBuilder::create();
 
@@ -66,8 +66,14 @@ class EnvironmentBuilderTest extends TestCase
     /**
      * @dataProvider setUriProvider
      */
-    public function testSetUri($requestUri, $uri, $queryString, $host, $port, $isHttps)
-    {
+    public function testSetUri(
+        string $requestUri,
+        string $uri,
+        string $queryString,
+        string $host,
+        int $port,
+        string $isHttps
+    ): void {
         $env = EnvironmentBuilder::create()->setUri($requestUri)->getEnv();
 
         $this->assertEquals($env['REQUEST_URI'], $uri);
@@ -77,7 +83,10 @@ class EnvironmentBuilderTest extends TestCase
         $this->assertEquals($env['HTTPS'], $isHttps);
     }
 
-    public function setUriProvider()
+    /**
+     * @return Array<mixed>[]
+     */
+    public function setUriProvider(): array
     {
         return [
             [
@@ -123,7 +132,7 @@ class EnvironmentBuilderTest extends TestCase
         ];
     }
 
-    public function testSetRemoveGetParams()
+    public function testSetRemoveGetParams(): void
     {
         $builder = EnvironmentBuilder::create();
 
@@ -140,7 +149,7 @@ class EnvironmentBuilderTest extends TestCase
         $this->assertEquals($env['QUERY_STRING'], 'var1=val1&var3=val3&var4=val4&var5=val5');
     }
 
-    public function testSetRemoveHeader()
+    public function testSetRemoveHeader(): void
     {
         // Header doesn't exist by default
         $builder = EnvironmentBuilder::create();
@@ -177,7 +186,7 @@ class EnvironmentBuilderTest extends TestCase
         $this->assertTrue(!isset($env['HTTP_ACCEPT']));
     }
 
-    public function testSetRemoveCookie()
+    public function testSetRemoveCookie(): void
     {
         // No cookies by default
         $builder = EnvironmentBuilder::create();
@@ -232,7 +241,7 @@ class EnvironmentBuilderTest extends TestCase
         );
     }
 
-    public function testBasicAuth()
+    public function testBasicAuth(): void
     {
         $user_name = 'myuser';
         $user_pass = 'mypass';

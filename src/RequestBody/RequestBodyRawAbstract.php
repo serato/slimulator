@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Serato\Slimulator\RequestBody;
 
-use Serato\Slimulator\RequestBody\RequestBodyAbstract;
-
 /**
  * A request body consisting of raw unparsed text data of the type
  * specified by the `self::getContentType` method.
@@ -21,30 +19,41 @@ abstract class RequestBodyRawAbstract extends RequestBodyAbstract
     /**
      * Create a new instance
      *
-     * @param mixed $body Raw request body
+     * @param string|Array<string, mixed> $body Raw request body
      *
-     * @return static
+     * @return self
      */
     public static function create($body): self
     {
+        // @phpstan-ignore-next-line (Because it is hard to fix this without rewriting bunch of stuff)
         return new static($body);
     }
 
     /**
      * Constructs the object
      *
-     * @param mixed $body Raw request body
+     * @param string $body Raw request body
      */
-    public function __construct($body)
+    public function __construct(string $body)
     {
         $this->body = $body;
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
+     */
+    public function getBody(): string
+    {
+        return $this->body;
+    }
+
+    /**
+     * Returns the raw request body
+     *
+     * @return string Raw request body
      */
     public function getRawRequestBody(): string
     {
-        return (string)$this->body;
+        return $this->body;
     }
 }

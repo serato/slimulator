@@ -7,7 +7,7 @@ use Serato\Slimulator\Authorization\HttpAuthorizationInterface;
 /**
  * Creates PHP environment variables for a request using `Bearer` token authorization.
  */
-class BearerToken implements HttpAuthorizationInterface
+final class BearerToken implements HttpAuthorizationInterface
 {
     /**
      * Token
@@ -72,7 +72,7 @@ class BearerToken implements HttpAuthorizationInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return Array<string, string>
      */
     public function getPhpEnvVars(): array
     {

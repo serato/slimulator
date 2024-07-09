@@ -11,7 +11,7 @@ use Serato\Slimulator\Authorization\BearerToken;
  */
 class BearerTokenTest extends TestCase
 {
-    public function testGetSet()
+    public function testGetSet(): void
     {
         $token = 'my_big_log_token';
 
@@ -26,7 +26,7 @@ class BearerTokenTest extends TestCase
         $this->assertEquals($auth->getToken(), $token);
     }
 
-    public function testHeaderValue()
+    public function testHeaderValue(): void
     {
         $token = 'my_big_log_token';
 

@@ -11,14 +11,17 @@ use Serato\Slimulator\RequestBody\RequestBodyAbstract;
  */
 abstract class RequestBodyWithParamsAbstract extends RequestBodyAbstract
 {
+    /**
+     * @var Array<string, mixed>
+     */
     protected $params = [];
 
     /**
      * Constructs the object
      *
-     * @param array $params Request params
+     * @param Array<string, mixed> $params Request params
      */
-    public function __construct(array $params = [])
+    public function __construct($params = [])
     {
         $this->addParams($params);
     }
@@ -41,7 +44,7 @@ abstract class RequestBodyWithParamsAbstract extends RequestBodyAbstract
      * Adds multiple request parameters from a single name/value array.
      * eg. `['param1' => 'val1', 'param2' => 'val2']`.
      *
-     * @param array $params     Name/value array of parameters
+     * @param Array<string, mixed> $params     Name/value array of parameters
      *
      * @return self
      */
@@ -67,10 +70,10 @@ abstract class RequestBodyWithParamsAbstract extends RequestBodyAbstract
     /**
      * Returns the complete set of request params.
      *
-     * @return array
+     * @return Array<string, mixed>
      */
     public function getParams(): array
     {
-        return count($this->params) === 0 ? null : $this->params;
+        return count($this->params) === 0 ? [] : $this->params;
     }
 }

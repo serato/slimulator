@@ -13,7 +13,7 @@ use Serato\Slimulator\RequestBody\Multipart;
  */
 class UploadedFileTest extends TestCase
 {
-    public function testCreateFromEnvironmentBuilder()
+    public function testCreateFromEnvironmentBuilder(): void
     {
         $env = EnvironmentBuilder::create()->setRequestBody(
             Multipart::create()
@@ -40,13 +40,18 @@ class UploadedFileTest extends TestCase
         }
     }
 
-    private function getTestFilePath(int $num = 1)
+    private function getTestFilePath(int $num = 1): string
     {
         return  __DIR__ . '/../resources/upload' . $num . '.txt';
     }
 
-    private function getTestFileContents(int $num = 1)
+    /**
+     * @param int $num
+     * @return string
+     */
+    private function getTestFileContents(int $num = 1): string
     {
-        return file_get_contents($this->getTestFilePath($num));
+        $content = file_get_contents($this->getTestFilePath($num));
+        return $content !== false ? $content : '';
     }
 }

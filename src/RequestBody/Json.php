@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Serato\Slimulator\RequestBody;
 
-use Serato\Slimulator\RequestBody\RequestBodyRawAbstract;
-
 /**
  * Creates a request body consisting of a string of JSON-encoded data.
  */
@@ -13,12 +11,17 @@ class Json extends RequestBodyRawAbstract
     /**
      * Constructs the object
      *
-     * @param string|array $json JSON request body content
+     * @param string|Array<string,mixed> $json JSON request body content
      */
     public function __construct($json)
     {
         if (is_array($json)) {
-            $json = json_encode($json);
+            $jsonEncodedString = json_encode($json);
+            if ($jsonEncodedString !== false) {
+                $json = $jsonEncodedString;
+            } else {
+                $json = '';
+            }
         }
         parent::__construct($json);
     }

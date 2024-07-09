@@ -13,7 +13,7 @@ class XmlTest extends TestCase
 {
     const DATA = '<xml><node>value</node></xml>';
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $body1 = new Xml(self::DATA);
         $body2 = Xml::create(self::DATA);
@@ -21,13 +21,13 @@ class XmlTest extends TestCase
         $this->assertEquals($body1, $body2);
     }
 
-    public function testGetRawRequestBody()
+    public function testGetRawRequestBody(): void
     {
         $body = Xml::create(self::DATA);
         $this->assertEquals(self::DATA, $body->getRawRequestBody());
     }
 
-    public function testGetRequestBodyStream()
+    public function testGetRequestBodyStream(): void
     {
         $body = Xml::create(self::DATA);
         $this->assertEquals(self::DATA, (string)$body->getRequestBodyStream());

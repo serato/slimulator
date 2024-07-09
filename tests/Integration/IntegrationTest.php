@@ -13,6 +13,7 @@ use Serato\Slimulator\RequestBody\Multipart;
 use Serato\Slimulator\RequestBody\UrlEncoded;
 use Serato\Slimulator\Authorization\BasicAuthorization;
 use Serato\Slimulator\Authorization\BearerToken;
+use Slim\Container;
 
 /**
  * Unit tests for Serato\Slimulator\Request
@@ -25,9 +26,12 @@ class IntegrationTest extends TestCase
     const AUTH_USER = 'auth.user';
     const USER_PASS = 'auth-user-pass';
     const BEARER_TOKEN = 'my123token456';
-    const REQUEST_PARAMS = ['var1' => 'My Value 1', 'var2' => 2, 'var3' => '333 value'];
+    const REQUEST_PARAMS = ['var1' => 'My Value 1', 'var2' => '2', 'var3' => '333 value'];
 
-    public function testNotFoundUriAcceptHtml()
+    /**
+     * @throws \Throwable
+     */
+    public function testNotFoundUriAcceptHtml(): void
     {
         $callable = function () {
             return EnvironmentBuilder::create()
@@ -45,7 +49,7 @@ class IntegrationTest extends TestCase
      * Easiest way to verfiy this is hit a 404 and lean on the default Slim
      * NotFound handler to set the correct content type.
      */
-    public function testNotFoundUriAcceptJson()
+    public function testNotFoundUriAcceptJson(): void
     {
         $callable = function () {
             return EnvironmentBuilder::create()
@@ -62,7 +66,7 @@ class IntegrationTest extends TestCase
     /**
      * As above but with 'Accepts' set to 'text/xml'
      */
-    public function testNotFoundUriAcceptXml()
+    public function testNotFoundUriAcceptXml(): void
     {
         $callable = function () {
             return EnvironmentBuilder::create()
@@ -76,7 +80,7 @@ class IntegrationTest extends TestCase
         $this->assertRegExp('/text\/xml/', $response->getHeader('Content-Type')[0]);
     }
 
-    public function testValidUriAcceptHtml()
+    public function testValidUriAcceptHtml(): void
     {
         $callable = function () {
             return EnvironmentBuilder::create()->setUri(self::HTML_URI);
@@ -88,7 +92,7 @@ class IntegrationTest extends TestCase
         $this->assertRegExp('/text\/html/', $response->getHeader('Content-Type')[0]);
     }
 
-    public function testGetParams()
+    public function testGetParams(): void
     {
         $callable = function () {
             return EnvironmentBuilder::create()
@@ -97,13 +101,12 @@ class IntegrationTest extends TestCase
         };
 
         $response = $this->bootstrapSlimApp($callable);
-        $body = json_decode((string)$response->getBody(), true);
-
+        $body = json_decode($response->getBody()->__toString(), true);
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals($body['query'], self::REQUEST_PARAMS);
+        $this->assertEquals(self::REQUEST_PARAMS, $body['query']);
     }
 
-    public function testUrlEncodedEntityBody()
+    public function testUrlEncodedEntityBody(): void
     {
         $callable = function () {
             return EnvironmentBuilder::create()
@@ -116,10 +119,10 @@ class IntegrationTest extends TestCase
         $body = json_decode((string)$response->getBody(), true);
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals($body['body'], self::REQUEST_PARAMS);
+        $this->assertEquals(self::REQUEST_PARAMS, $body['body']);
     }
 
-    public function testMultipartEntityBody()
+    public function testMultipartEntityBody(): void
     {
         $callable = function () {
             return EnvironmentBuilder::create()
@@ -132,10 +135,10 @@ class IntegrationTest extends TestCase
         $body = json_decode((string)$response->getBody(), true);
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals($body['body'], self::REQUEST_PARAMS);
+        $this->assertEquals(self::REQUEST_PARAMS, $body['body']);
     }
 
-    public function testMultipartEntityBodyWithFiles()
+    public function testMultipartEntityBodyWithFiles(): void
     {
         $callable = function () {
             return EnvironmentBuilder::create()
@@ -156,7 +159,7 @@ class IntegrationTest extends TestCase
         $body = json_decode((string)$response->getBody(), true);
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals($body['body'], self::REQUEST_PARAMS);
+        $this->assertEquals(self::REQUEST_PARAMS, $body['body']);
         $this->assertEquals(
             $body['files']['file1'],
             file_get_contents($this->getUploadFilePath(1))
@@ -167,7 +170,7 @@ class IntegrationTest extends TestCase
         );
     }
 
-    public function testJsonEntityBody()
+    public function testJsonEntityBody(): void
     {
         $callable = function () {
             return EnvironmentBuilder::create()
@@ -180,10 +183,10 @@ class IntegrationTest extends TestCase
         $body = json_decode((string)$response->getBody(), true);
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals($body['body'], self::REQUEST_PARAMS);
+        $this->assertEquals(self::REQUEST_PARAMS, $body['body']);
     }
 
-    public function testBasicAuth()
+    public function testBasicAuth(): void
     {
         $callable = function () {
             return EnvironmentBuilder::create()
@@ -200,7 +203,7 @@ class IntegrationTest extends TestCase
         $this->assertRegExp('/Basic/', $body['auth'][0]);
     }
 
-    public function testBearerTokenAuth()
+    public function testBearerTokenAuth(): void
     {
         $callable = function () {
             return EnvironmentBuilder::create()
@@ -219,29 +222,24 @@ class IntegrationTest extends TestCase
     /**
      * Bootstrap a Slim application, run it and return a ResponseInterface.
      *
-     * @param callable  $env    A callable that returns an EnvironmentBuilder instance
+     * @param callable $env A callable that returns an EnvironmentBuilder instance
      *
      * @return ResponseInterface
+     * @throws \Throwable
      */
     protected function bootstrapSlimApp(callable $env): ResponseInterface
     {
-        $app = new SlimApp();
-        $container = $app->getContainer();
-
-        // Add our callable to the container
-        $container['environmentBuilder'] = $env;
-
-        // Replace the default `environment` in the container with our constructed
-        // environment created out of the EnvironmentBuilder instance
-        $container['environment'] = function ($c) {
-            return $c->get('environmentBuilder')->getSlimEnvironment();
-        };
-        // And do the same for the container's `request` object
-        $container['request'] = function ($c) {
-            return Request::createFromEnvironmentBuilder(
-                $c->get('environmentBuilder')
-            );
-        };
+        $app = new SlimApp(new Container([
+            'environmentBuilder' => $env,
+            'environment' => function ($c) {
+                return $c->get('environmentBuilder')->getSlimEnvironment();
+            },
+            'request' => function ($c) {
+                return Request::createFromEnvironmentBuilder(
+                    $c->get('environmentBuilder')
+                );
+            }
+        ]));
 
         // Add routes
         $app->any(self::HTML_URI, function ($request, $response, $args) {
@@ -249,7 +247,6 @@ class IntegrationTest extends TestCase
         
         $app->any(self::JSON_URI, function ($request, $response, $args) {
             $files = [];
-
             foreach ($request->getUploadedFiles() as $name => $file) {
                 $files[$name] = (string)$file->getStream();
             }
@@ -273,7 +270,7 @@ class IntegrationTest extends TestCase
         return $app->run(true);
     }
 
-    protected function getUploadFilePath($num)
+    protected function getUploadFilePath(int $num): string
     {
         return __DIR__ . '/../resources/upload' . $num . '.txt';
     }

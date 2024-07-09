@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Serato\Slimulator\RequestBody;
 
 use Exception;
-use Serato\Slimulator\RequestBody\RequestBodyWithParamsAbstract;
 
 /**
  * Creates a request body consisting of a `mulipart/form-data` content type
@@ -25,19 +24,24 @@ use Serato\Slimulator\RequestBody\RequestBodyWithParamsAbstract;
  * ie. Testing scenarios may require the construction of invalid request bodies for
  * a given HTTP method.
  */
-class Multipart extends RequestBodyWithParamsAbstract
+final class Multipart extends RequestBodyWithParamsAbstract
 {
     const BOUNDARY = '--------------------------477985590996817534165738';
 
+    /**
+     * Array of files to be uploaded.
+     *
+     * @var Array<string, mixed>
+     */
     private $files = [];
 
     /**
      * Create a new Multipart
      *
-     * @param array $params Name/value array of request parameters
-     * @param array $files  Name/file path array of files
+     * @param Array<string, mixed> $params Name/value array of request parameters
+     * @param Array<string, mixed> $files  Name/file path array of files
      *
-     * @return static
+     * @return self
      */
     public static function create(array $params = [], array $files = []): self
     {
@@ -77,7 +81,7 @@ class Multipart extends RequestBodyWithParamsAbstract
     /**
      * Adds multiple files to the request body.
      *
-     * @param array $files     Name/file path array of files
+     * @param Array<string, mixed> $files     Name/file path array of files
      *
      * @return self
      */
@@ -105,9 +109,9 @@ class Multipart extends RequestBodyWithParamsAbstract
      *
      * Analogous to the `$_FILES` PHP superglobal.
      *
-     * @return array|null
+     * @return Array<string, mixed>|null
      */
-    public function getFiles()
+    public function getFiles(): ?array
     {
         return count($this->files) === 0 ? null : $this->files;
     }

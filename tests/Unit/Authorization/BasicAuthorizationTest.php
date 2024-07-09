@@ -11,7 +11,7 @@ use Serato\Slimulator\Authorization\BasicAuthorization;
  */
 class BasicAuthorizationTest extends TestCase
 {
-    public function testGetSet()
+    public function testGetSet(): void
     {
         $user_name = 'myuser';
         $user_pass = 'mypass';
@@ -31,7 +31,7 @@ class BasicAuthorizationTest extends TestCase
         $this->assertEquals($auth->getPassword(), $user_pass);
     }
 
-    public function testHeaderValue()
+    public function testHeaderValue() : void
     {
         $user_name = 'myuser';
         $user_pass = 'mypass';
@@ -53,7 +53,7 @@ class BasicAuthorizationTest extends TestCase
         }
     }
 
-    public function testGetPhpEnvVars()
+    public function testGetPhpEnvVars(): void
     {
         $user_name = 'myuser';
         $user_pass = 'mypass';

@@ -14,6 +14,7 @@ interface HttpAuthorizationInterface
     public function getHeaderValue(): string;
 
     /**
+     * @return Array<string,string>
      * Returns an array of all PHP environment variables created by the
      * authorization scheme.
      */
